@@ -15,15 +15,18 @@ CREATE TABLE Statuses (
     StatusName NVARCHAR(100) --שם סטטוס--
     );
 
-    CREATE TABLE ConfectioneryTypes (
+
+CREATE TABLE ConfectioneryTypes (
     ConfectioneryTypeId INT PRIMARY KEY, --מספר סוג של קודניטוריה--
-    ConfectioneryTypeName Nvarchar(100) --שם סוג של קודניטוריה--
+    ConfectioneryTypeName NVARCHAR(100) --שם סוג של קודניטוריה--
     );
 
-    CREATE TABLE DessertTypes (
+
+CREATE TABLE DessertTypes (
     DessertTypeId INT PRIMARY KEY, --מספר סוג קינוח--
     DessertTypeName NVARCHAR(100) --שם סוג קינוח--
     );
+
 
     CREATE TABLE UserTypes (
     UserTypeId INT PRIMARY KEY, --מספר סוג משתמש--
@@ -43,25 +46,25 @@ CREATE TABLE Users (
     );
 
 
-    CREATE TABLE Bakers (
+CREATE TABLE Bakers (
     BakerId INT PRIMARY KEY,
     FOREIGN KEY (BakerId) REFERENCES Users(UserId), --מפתח ראשי--
     HighestPrice FLOAT, --טווח מחירים--
     ConfectioneryTypeId INT, --מפתח זר לטבלת סוגי קונדיטוריה--
-    FOREIGN KEY (ConfectioneryTypeId) REFERENCES ConfectioneryTypes(ConectioneryTypeId), --סוג קונדיטוריה--
+    FOREIGN KEY (ConfectioneryTypeId) REFERENCES ConfectioneryTypes(ConfectioneryTypeId), --סוג קונדיטוריה--
     StatusCode INT, --מפתח זר לטבלת סטטוסים--
     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קונדיטוריה--
     Profits FLOAT --רווח--
     );
 
 
-    CREATE TABLE Desserts (
-    DesserId INT PRIMARY KEY Identity, --מפתח ראשי--
+CREATE TABLE Desserts (
+    DessertId INT PRIMARY KEY Identity, --מפתח ראשי--
     DessertName NVARCHAR(100), --שם קניוח--
     BakerId INT --מפתח זר לטבלת קונדיטורים--
     FOREIGN KEY (BakerId) REFERENCES Bakers(BakerId), --מספר קונדיטור--
-    DssertTypeId INT --מפתח זר לטבלת סוגי קינוח--
-    FOREIGN KEY (DssertTypeId) REFERENCES DssertTypes(DssertTypeId), --סוג קינוח--
+    DessertTypeId INT --מפתח זר לטבלת סוגי קינוח--
+    FOREIGN KEY (DessertTypeId) REFERENCES DessertTypes(DessertTypeId), --סוג קינוח--
      StatusCode INT --מפתח זר לטבלת סטטוסים--
      FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קינוח--
     Price FLOAT, --מחיר--
@@ -69,7 +72,7 @@ CREATE TABLE Users (
     );
 
 
-    CREATE TABLE Orders (
+CREATE TABLE Orders (
     OrderId INT PRIMARY KEY Identity, --מפתח ראשי--
     StatusCode INT --מפתח זר לטבלת סטטוסים--
      FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס הזמנה--
@@ -84,7 +87,7 @@ CREATE TABLE Users (
     );
 
 
-    CREATE TABLE OrderedDesserts (
+CREATE TABLE OrderedDesserts (
     OrderId INT
     FOREIGN KEY (OrderId) REFERENCES Orders(OrderId), --מספר הזמנה--
     DessertId INT --מפתח זר לטבלת קינוחים--
