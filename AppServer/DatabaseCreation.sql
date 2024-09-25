@@ -11,25 +11,25 @@ Use AppServer_DB
 Go
 
 CREATE TABLE Statuses (
-    StatusCode INT PRIMARY KEY, --קוד סטטוס--
+    StatusCode INT PRIMARY KEY, --מפתח ראשי--
     StatusName NVARCHAR(100) --שם סטטוס--
     );
 
 
 CREATE TABLE ConfectioneryTypes (
-    ConfectioneryTypeId INT PRIMARY KEY, --מספר סוג של קודניטוריה--
+    ConfectioneryTypeId INT PRIMARY KEY, --מפתח ראשי--
     ConfectioneryTypeName NVARCHAR(100) --שם סוג של קודניטוריה--
     );
 
 
 CREATE TABLE DessertTypes (
-    DessertTypeId INT PRIMARY KEY, --מספר סוג קינוח--
+    DessertTypeId INT PRIMARY KEY, --מפתח ראשי--
     DessertTypeName NVARCHAR(100) --שם סוג קינוח--
     );
 
 
     CREATE TABLE UserTypes (
-    UserTypeId INT PRIMARY KEY, --מספר סוג משתמש--
+    UserTypeId INT PRIMARY KEY, --מפתח ראשי--
     UserTypeName NVARCHAR(100) --שם סוג משתמש--
     );
 
@@ -98,13 +98,3 @@ CREATE TABLE OrderedDesserts (
     Quantity INT, --כמות--
     Price FLOAT --מחיר--
     );
-
-    
-
-
-
-
-    
-
-
-    
