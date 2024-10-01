@@ -1,6 +1,6 @@
 ﻿﻿Use master
 Go
-IF EXISTS (SELECT * FROM sys.databases WHERE name = N'AppServer_DB')
+IF EXISTS (SELECT * FROM sys.databases WHERE name = 'AppServer_DB')
 BEGIN
     DROP DATABASE AppServer_DB;
 END
@@ -10,30 +10,31 @@ Go
 Use AppServer_DB
 Go
 
+    --טבלת סטטוסים--
 CREATE TABLE Statuses (
     StatusCode INT PRIMARY KEY, --מפתח ראשי--
     StatusName NVARCHAR(100) --שם סטטוס--
     );
 
-
+    --טבלת קונדיטוריות--
 CREATE TABLE ConfectioneryTypes (
     ConfectioneryTypeId INT PRIMARY KEY, --מפתח ראשי--
     ConfectioneryTypeName NVARCHAR(100) --שם סוג של קודניטוריה--
     );
 
-
+    --טבלת סוגי קינוחים--
 CREATE TABLE DessertTypes (
     DessertTypeId INT PRIMARY KEY, --מפתח ראשי--
     DessertTypeName NVARCHAR(100) --שם סוג קינוח--
     );
 
-
+    --טבלת סוגי משתמש--
     CREATE TABLE UserTypes (
     UserTypeId INT PRIMARY KEY, --מפתח ראשי--
     UserTypeName NVARCHAR(100) --שם סוג משתמש--
     );
 
-
+    --טבלת משתמשים--
 CREATE TABLE Users (
     UserId INT PRIMARY KEY Identity,     --מפתח ראשי--
     Mail NVARCHAR(100),      --מייל של משתמש--
@@ -45,7 +46,7 @@ CREATE TABLE Users (
     ProfileImage VARBINARY(MAX)  --תמונת פרופיל--
     );
 
-
+    --טבלת קודניטורים--
 CREATE TABLE Bakers (
     BakerId INT PRIMARY KEY,
     FOREIGN KEY (BakerId) REFERENCES Users(UserId), --מפתח ראשי--
@@ -57,7 +58,7 @@ CREATE TABLE Bakers (
     Profits FLOAT --רווח--
     );
 
-
+    --טבלת קינוחים--
 CREATE TABLE Desserts (
     DessertId INT PRIMARY KEY Identity, --מפתח ראשי--
     DessertName NVARCHAR(100), --שם קניוח--
@@ -71,7 +72,7 @@ CREATE TABLE Desserts (
     DessertImage VARBINARY(MAX) --תמונה של קינוח--
     );
 
-
+    --טבלת הזמנות--
 CREATE TABLE Orders (
     OrderId INT PRIMARY KEY Identity, --מפתח ראשי--
     StatusCode INT --מפתח זר לטבלת סטטוסים--
@@ -80,15 +81,15 @@ CREATE TABLE Orders (
     FOREIGN KEY (CustomerId) REFERENCES Users(UserId), --מספר משתמש--
     BakerId INT --מפתח זר לטבלת קונדיטורים--
     FOREIGN KEY (BakerId) REFERENCES Bakers(BakerId), --מספר קונדיטור--
-    OrderDate Date,
-    ArrivalDate Date,
-    Adress NVARCHAR(100),
-    TotalPrice FLOAT
+    OrderDate Date, --תאריך הזמנה--
+    ArrivalDate Date,  --תאריך הגעה--
+    Adress NVARCHAR(100), --כתובת--
+    TotalPrice FLOAT --מחיר כל ההזמנה--
     );
 
-
+    --טבלת קינוחים שהוזמנו--
 CREATE TABLE OrderedDesserts (
-    OrderId INT
+    OrderId INT --מפתח זר לטבלת הזמנות--
     FOREIGN KEY (OrderId) REFERENCES Orders(OrderId), --מספר הזמנה--
     DessertId INT --מפתח זר לטבלת קינוחים--
     FOREIGN KEY (DessertId) REFERENCES Desserts(DessertId), --מספר קינוח--
@@ -98,3 +99,21 @@ CREATE TABLE OrderedDesserts (
     Quantity INT, --כמות--
     Price FLOAT --מחיר--
     );
+
+    -- Create a login for the admin user
+CREATE LOGIN [AdminLogin] WITH PASSWORD = '12345';
+Go
+
+-- Create a user in the DB database for the login
+CREATE USER [AdminUser] FOR LOGIN [AdminLogin];
+Go
+
+-- Add the user to the db_owner role to grant admin privileges
+ALTER ROLE db_owner ADD MEMBER [AdminUser];
+Go
+
+
+    --EF Code
+/*
+scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Initial Catalog=AppServer_DB;User ID=AdminLogin;Password=12345;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context DBContext -DataAnnotations -force
+*/
