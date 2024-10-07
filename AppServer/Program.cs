@@ -1,4 +1,6 @@
 
+using Microsoft.EntityFrameworkCore;
+using AppServer.Models;
 namespace AppServer
 {
     public class Program
@@ -14,6 +16,19 @@ namespace AppServer
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDbContext<DBContext>(
+                   options => options.UseSqlServer("Server = (localdb)\\MSSQLLocalDB;Initial Catalog=AppServer_DB;User ID=AdminLogin;Password=12345;"));
+
+            #region Add Session
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = false;
+                options.Cookie.IsEssential = true;
+            });
+            #endregion
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -22,6 +37,10 @@ namespace AppServer
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            #region Add Session
+            app.UseSession(); //In order to enable session management
+            #endregion 
 
             app.UseHttpsRedirection();
 

@@ -1,4 +1,4 @@
-﻿﻿Use master
+﻿Use master
 Go
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'AppServer_DB')
 BEGIN
@@ -117,3 +117,6 @@ Go
 /*
 scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Initial Catalog=AppServer_DB;User ID=AdminLogin;Password=12345;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context DBContext -DataAnnotations -force
 */
+
+
+SELECT * FROM Users
