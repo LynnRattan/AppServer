@@ -23,7 +23,7 @@ public partial class User
     [StringLength(100)]
     public string? Name { get; set; }
 
-    public int? UserTypeId { get; set; }
+    public int UserTypeId { get; set; }
 
     public byte[]? ProfileImage { get; set; }
 
