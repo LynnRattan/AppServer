@@ -12,6 +12,11 @@
 
         public int UserTypeId { get; set; }
 
+        public double? HighestPrice { get; set; }
+
+        public int? ConfectioneryTypeId { get; set; }
+
+
         public UserDTO() { }
 
         public UserDTO(Models.User modelUser)
@@ -21,6 +26,8 @@
             this.Mail = modelUser.Mail;
             this.Name = modelUser.Name;
             this.UserTypeId = modelUser.UserTypeId;
+            this.HighestPrice = HighestPrice;
+            this.ConfectioneryTypeId = ConfectioneryTypeId;
         }
        
     }

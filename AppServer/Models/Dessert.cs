@@ -16,11 +16,11 @@ public partial class Dessert
 
     public int? BakerId { get; set; }
 
-    public int? DessertTypeId { get; set; }
+    public int DessertTypeId { get; set; }
 
     public int? StatusCode { get; set; }
 
-    public double? Price { get; set; }
+    public double Price { get; set; }
 
     public byte[]? DessertImage { get; set; }
 

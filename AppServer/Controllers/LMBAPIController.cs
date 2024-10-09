@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AppServer.Models;
+using System.Runtime.InteropServices.Marshalling;
+using AppServer.DTO;
 
 namespace AppServer.Controllers
 {
@@ -38,6 +40,16 @@ namespace AppServer.Controllers
 
                 context.Users.Add(modelsUser);
                 context.SaveChanges();
+               
+                if (userDto.UserTypeId==2)
+                {
+                    Models.Baker modelsBaker = new Baker()
+                    {
+                        HighestPrice = userDto.HighestPrice,
+                        ConfectioneryTypeId = userDto.ConfectioneryTypeId
+                    };
+
+                }
 
                 //User was added!
                 DTO.UserDTO dtoUser = new DTO.UserDTO(modelsUser);
