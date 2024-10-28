@@ -40,7 +40,7 @@ CREATE TABLE Users (
     Mail NVARCHAR(100),      --מייל של משתמש--
     Username NVARCHAR(100),  --שם משתמש--
     [Password] NVARCHAR(100),    --סיסמה--
-    [Name] NVARCHAR(100),   --שם קונה/קונדיטוריה--
+    [ProfileName] NVARCHAR(100),   --שם קונה/קונדיטוריה--
      UserTypeId INT,  --מפתח זר לטבלת סוגי משתמש--
     FOREIGN KEY (UserTypeId) REFERENCES UserTypes(UserTypeId),  --סוג משתמש--
     ProfileImage VARBINARY(MAX)  --תמונת פרופיל--

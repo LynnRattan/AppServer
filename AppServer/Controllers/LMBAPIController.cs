@@ -49,6 +49,8 @@ namespace AppServer.Controllers
                         ConfectioneryTypeId = userDto.ConfectioneryTypeId
                     };
 
+                    context.Bakers.Add(modelsBaker);
+                    context.SaveChanges();
                 }
 
                 //User was added!

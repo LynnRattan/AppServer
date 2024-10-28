@@ -2,6 +2,7 @@
 {
     public class UserDTO
     {
+        public int UserId { get; set; }
         public string Mail { get; set; }
 
         public string Username { get; set; }
@@ -21,13 +22,13 @@
 
         public UserDTO(Models.User modelUser)
         {
+            this.UserId = modelUser.UserId;
             this.Username = modelUser.Username;
             this.Password = modelUser.Password;
             this.Mail = modelUser.Mail;
             this.Name = modelUser.Name;
             this.UserTypeId = modelUser.UserTypeId;
-            this.HighestPrice = HighestPrice;
-            this.ConfectioneryTypeId = ConfectioneryTypeId;
+            
         }
        
     }
