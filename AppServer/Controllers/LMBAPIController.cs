@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using AppServer.Models;
 using System.Runtime.InteropServices.Marshalling;
 using AppServer.DTO;
+using AppServer.Models;
 
 namespace AppServer.Controllers
 {
@@ -21,41 +22,42 @@ namespace AppServer.Controllers
             this.webHostEnvironment = env;
         }
 
-        [HttpPost("Sign Up")]
-        public IActionResult Register([FromBody] DTO.UserDTO userDto)
+        [HttpGet("check")]
+        public IActionResult Check()
+        {
+            try
+            {                
+                return Ok("Works");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] DTO.LoginInfo loginDto)
         {
             try
             {
                 HttpContext.Session.Clear(); //Logout any previous login attempt
 
                 //Get model user class from DB with matching email. 
-                Models.User modelsUser = new User()
-                {
-                   Username = userDto.Username,
-                   Password = userDto.Password,
-                   Mail = userDto.Mail,
-                   Name = userDto.Name,
-                   UserTypeId = userDto.UserTypeId
-                };
+                Models.User? modelsUser = context.GetUser(loginDto.Mail);
 
-                context.Users.Add(modelsUser);
-                context.SaveChanges();
-               
-                if (userDto.UserTypeId==2)
+                //Check if user exist for this email and if password match, if not return Access Denied (Error 403) 
+                if (modelsUser == null || modelsUser.Password != loginDto.Password)
                 {
-                    Models.Baker modelsBaker = new Baker()
-                    {
-                        HighestPrice = userDto.HighestPrice,
-                        ConfectioneryTypeId = userDto.ConfectioneryTypeId
-                    };
-
-                    context.Bakers.Add(modelsBaker);
-                    context.SaveChanges();
+                    return Unauthorized();
                 }
 
-                //User was added!
+                //Login suceed! now mark login in session memory!
+                HttpContext.Session.SetString("loggedInUser", modelsUser.Mail);
+
                 DTO.UserDTO dtoUser = new DTO.UserDTO(modelsUser);
-                //dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.UserId);
+                //dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.Id);
                 return Ok(dtoUser);
             }
             catch (Exception ex)
@@ -64,6 +66,51 @@ namespace AppServer.Controllers
             }
 
         }
+
+
+        //[HttpPost("Sign Up")]
+        //public IActionResult Register([FromBody] DTO.UserDTO userDto)
+        //{
+        //    try
+        //    {
+        //        HttpContext.Session.Clear(); //Logout any previous login attempt
+
+        //        //Get model user class from DB with matching email. 
+        //        Models.User modelsUser = new User()
+        //        {
+        //           Username = userDto.Username,
+        //           Password = userDto.Password,
+        //           Mail = userDto.Mail,
+        //           Name = userDto.Name,
+        //           UserTypeId = userDto.UserTypeId
+        //        };
+
+        //        context.Users.Add(modelsUser);
+        //        context.SaveChanges();
+               
+        //        if (userDto.UserTypeId==2)
+        //        {
+        //            Models.Baker modelsBaker = new Baker()
+        //            {
+        //                HighestPrice = userDto.HighestPrice,
+        //                ConfectioneryTypeId = userDto.ConfectioneryTypeId
+        //            };
+
+        //            context.Bakers.Add(modelsBaker);
+        //            context.SaveChanges();
+        //        }
+
+        //        //User was added!
+        //        DTO.UserDTO dtoUser = new DTO.UserDTO(modelsUser);
+        //        //dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.UserId);
+        //        return Ok(dtoUser);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+
+        //}
 
     }
 }

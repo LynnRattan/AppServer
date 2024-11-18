@@ -21,7 +21,7 @@ public partial class User
     public string? Password { get; set; }
 
     [StringLength(100)]
-    public string? Name { get; set; }
+    public string?  ProfileName { get; set; }
 
     public int UserTypeId { get; set; }
 

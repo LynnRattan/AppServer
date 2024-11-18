@@ -9,7 +9,7 @@
 
         public string Password { get; set; }
 
-        public string Name { get; set; }
+        public string ProfileName { get; set; }
 
         public int UserTypeId { get; set; }
 
@@ -26,7 +26,7 @@
             this.Username = modelUser.Username;
             this.Password = modelUser.Password;
             this.Mail = modelUser.Mail;
-            this.Name = modelUser.Name;
+            this.ProfileName = modelUser.ProfileName;
             this.UserTypeId = modelUser.UserTypeId;
             
         }
