@@ -25,7 +25,7 @@ public partial class User
 
     public int UserTypeId { get; set; }
 
-    public byte[]? ProfileImage { get; set; }
+    //public byte[]? ProfileImage { get; set; }
 
     [InverseProperty("BakerNavigation")]
     public virtual Baker? Baker { get; set; }

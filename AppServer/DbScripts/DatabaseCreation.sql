@@ -99,9 +99,9 @@ CREATE TABLE OrderedDesserts (
     Quantity INT, --כמות--
     Price FLOAT --מחיר--
     );
-
-    insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin')
     insert into UserTypes values(3,'Admin')
+    insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin')
+    
 
     -- Create a login for the admin user
 CREATE LOGIN [AdminLogin] WITH PASSWORD = '12345';

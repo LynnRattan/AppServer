@@ -13,6 +13,8 @@
 
         public int UserTypeId { get; set; }
 
+        public string ProfileImagePath { get; set; } = "";
+
         public double? HighestPrice { get; set; }
 
         public int? ConfectioneryTypeId { get; set; }
@@ -30,6 +32,21 @@
             this.UserTypeId = modelUser.UserTypeId;
             
         }
-       
+
+        public Models.User GetModels()
+        {
+            Models.User modelsUser = new Models.User()
+            {
+                UserId = this.UserId,
+                Username = this.Username,
+                Mail = this.Mail,
+                Password = this.Password,
+                ProfileName= this.ProfileName,
+                UserTypeId= this.UserTypeId
+            };
+
+            return modelsUser;
+        }
+
     }
 }
