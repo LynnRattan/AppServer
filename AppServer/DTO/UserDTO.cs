@@ -15,9 +15,6 @@
 
         public string ProfileImagePath { get; set; } = "";
 
-        public double? HighestPrice { get; set; }
-
-        public int? ConfectioneryTypeId { get; set; }
 
 
         public UserDTO() { }
