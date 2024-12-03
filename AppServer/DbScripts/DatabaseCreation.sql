@@ -99,6 +99,8 @@ CREATE TABLE OrderedDesserts (
     Quantity INT, --כמות--
     Price FLOAT --מחיר--
     );
+    insert into UserTypes values(1,'User')
+    insert into UserTypes values(2,'Confectioner')
     insert into UserTypes values(3,'Admin')
     insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin')
     
@@ -123,3 +125,4 @@ scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Initial Catalog=AppServer_DB
 
 
 SELECT * FROM Users
+SELECT * FROM UserTypes
