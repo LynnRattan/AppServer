@@ -37,7 +37,7 @@ CREATE TABLE DessertTypes (
     --טבלת משתמשים--
 CREATE TABLE Users (
     UserId INT PRIMARY KEY Identity,     --מפתח ראשי--
-    Mail NVARCHAR(100),      --מייל של משתמש--
+    Mail NVARCHAR(100) Unique,      --מייל של משתמש--
     Username NVARCHAR(100),  --שם משתמש--
     [Password] NVARCHAR(100),    --סיסמה--
     [ProfileName] NVARCHAR(100),   --שם קונה/קונדיטוריה--
