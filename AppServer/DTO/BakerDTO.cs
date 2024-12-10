@@ -7,6 +7,8 @@
 
         public int? ConfectioneryTypeId { get; set; }
 
+        public int StatusCode {  get; set; }
+
         public BakerDTO() { }
 
         public BakerDTO(Models.Baker modelBaker)

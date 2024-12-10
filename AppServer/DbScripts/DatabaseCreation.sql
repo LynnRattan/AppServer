@@ -53,8 +53,8 @@ CREATE TABLE Bakers (
     HighestPrice FLOAT, --טווח מחירים--
     ConfectioneryTypeId INT, --מפתח זר לטבלת סוגי קונדיטוריה--
     FOREIGN KEY (ConfectioneryTypeId) REFERENCES ConfectioneryTypes(ConfectioneryTypeId), --סוג קונדיטוריה--
-    StatusCode INT, --מפתח זר לטבלת סטטוסים--
-    FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קונדיטוריה--
+    ConStatusCode INT, --מפתח זר לטבלת סטטוסים--
+    FOREIGN KEY (ConStatusCode) REFERENCES Statuses(StatusCode), --סטטוס קונדיטוריה--
     Profits FLOAT --רווח--
     );
 
@@ -66,8 +66,8 @@ CREATE TABLE Desserts (
     FOREIGN KEY (BakerId) REFERENCES Bakers(BakerId), --מספר קונדיטור--
     DessertTypeId INT --מפתח זר לטבלת סוגי קינוח--
     FOREIGN KEY (DessertTypeId) REFERENCES DessertTypes(DessertTypeId), --סוג קינוח--
-     StatusCode INT --מפתח זר לטבלת סטטוסים--
-     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קינוח--
+     DessertStatusCode INT --מפתח זר לטבלת סטטוסים--
+     FOREIGN KEY (DessertStatusCode) REFERENCES Statuses(StatusCode), --סטטוס קינוח--
     Price FLOAT, --מחיר--
     DessertImage VARBINARY(MAX) --תמונה של קינוח--
     );
@@ -75,8 +75,8 @@ CREATE TABLE Desserts (
     --טבלת הזמנות--
 CREATE TABLE Orders (
     OrderId INT PRIMARY KEY Identity, --מפתח ראשי--
-    StatusCode INT --מפתח זר לטבלת סטטוסים--
-     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס הזמנה--
+    OrderStatusCode INT --מפתח זר לטבלת סטטוסים--
+     FOREIGN KEY (OrderStatusCode) REFERENCES Statuses(StatusCode), --סטטוס הזמנה--
      CustomerId INT --מפתח זר לטבלת משתמשים--
     FOREIGN KEY (CustomerId) REFERENCES Users(UserId), --מספר משתמש--
     BakerId INT --מפתח זר לטבלת קונדיטורים--
@@ -94,10 +94,9 @@ CREATE TABLE OrderedDesserts (
     DessertId INT --מפתח זר לטבלת קינוחים--
     FOREIGN KEY (DessertId) REFERENCES Desserts(DessertId), --מספר קינוח--
     CONSTRAINT PK_Orders_Desserts PRIMARY KEY (OrderId,DessertId), --קישור מפתחות זרים--
-    StatusCode INT --מפתח זר לטבלת סטטוסים--
+    ODStatusCode INT --מפתח זר לטבלת סטטוסים--
     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קינוח שהוזמן--
     Quantity INT, --כמות--
-    Price FLOAT --מחיר--
     );
     insert into UserTypes values(1,'User')
     insert into UserTypes values(2,'Confectioner')
@@ -120,7 +119,7 @@ Go
 
     --EF Code
 /*
-scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Initial Catalog=AppServer_DB;User ID=AdminLogin;Password=12345;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context DBContext -DataAnnotations -force
+scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Init.0ial Catalog=AppServer_DB;User ID=AdminLogin;Password=12345;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context DBContext -DataAnnotations -force
 */
 
 
