@@ -103,6 +103,10 @@ CREATE TABLE OrderedDesserts (
     insert into UserTypes values(2,'Confectioner')
     insert into UserTypes values(3,'Admin')
     insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin')
+
+    insert into Statuses values(1,'Pending')
+    insert into Statuses values(2,'Approved')
+    insert into Statuses values(3,'Declined')
     
 
     -- Create a login for the admin user

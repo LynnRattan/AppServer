@@ -18,7 +18,7 @@ public partial class Dessert
 
     public int DessertTypeId { get; set; }
 
-    public int? StatusCode { get; set; }
+    public int StatusCode { get; set; }
 
     public double Price { get; set; }
 

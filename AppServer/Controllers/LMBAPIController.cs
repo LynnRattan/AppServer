@@ -213,5 +213,30 @@ namespace AppServer.Controllers
 
             return virtualPath;
         }
+
+        [HttpPost("adddessert")]
+        public IActionResult AddDessert([FromBody] DTO.DessertDTO dessertDto)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+                //Create model dessert class
+                Models.Dessert modelsDessert = dessertDto.GetModels();
+
+                context.Desserts.Add(modelsDessert);
+                context.SaveChanges();
+
+                //Dessert was added!
+                DTO.DessertDTO dtoDessert = new DTO.DessertDTO(modelsDessert);
+                //dtoDessert.DesertImagePath = GetDessertImageVirtualPath(dtoDessert.DessertId);
+                return Ok(dtoDessert);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
     }
