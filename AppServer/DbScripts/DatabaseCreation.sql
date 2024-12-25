@@ -112,6 +112,11 @@ CREATE TABLE OrderedDesserts (
     insert into ConfectioneryTypes values(2, 'Patisserie')
     insert into ConfectioneryTypes values(3, 'Homemade')
     insert into ConfectioneryTypes values(4, 'Everything')
+
+    insert into DessertTypes values(1,'Cake')
+    insert into DessertTypes values(2,'Cupcake')
+    insert into DessertTypes values(3,'Cookie')
+    insert into DessertTypes values(4,'Pastry')
     
 
     -- Create a login for the admin user
@@ -137,3 +142,6 @@ SELECT * FROM Users
 SELECT * FROM Bakers
 SELECT * FROM UserTypes
 SELECT * FROM ConfectioneryTypes
+SELECT * FROM DessertTypes
+SELECT * FROM Statuses
+SELECT * FROM Desserts

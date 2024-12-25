@@ -17,7 +17,7 @@ public partial class Baker
 
     public int StatusCode { get; set; }
 
-    public double? Profits { get; set; }
+    public double Profits { get; set; }
 
     [ForeignKey("BakerId")]
     [InverseProperty("Baker")]

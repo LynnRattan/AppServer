@@ -12,6 +12,7 @@
         public double? HighestPrice { get; set; }
         public int? ConfectioneryTypeId {  get; set; }
         public int StatusCode { get; set; }
+        public double Profits { get; set; }
 
         public UserBakerDTO() { }
 
@@ -26,6 +27,7 @@
             this.HighestPrice = bakerDto.HighestPrice;
             this.ConfectioneryTypeId = bakerDto.ConfectioneryTypeId;
             this.StatusCode = bakerDto.StatusCode;
+            this.Profits = bakerDto.Profits;
         }
         public DTO.UserDTO GetUserModels()
         {
@@ -47,6 +49,7 @@
                 HighestPrice = this.HighestPrice,
                 ConfectioneryTypeId = this.ConfectioneryTypeId,
                 StatusCode = this.StatusCode,
+                Profits = this.Profits
             };
             return baker;
         }

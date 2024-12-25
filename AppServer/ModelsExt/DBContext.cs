@@ -7,9 +7,9 @@ namespace AppServer.Models
 
     public partial class DBContext : DbContext
     {
-        public User? GetUser(string email)
+        public User? GetUser(string mail)
         {
-            return this.Users.Where(u => u.Mail == email).FirstOrDefault();
+            return this.Users.Where(u => u.Mail == mail).FirstOrDefault();
         }
     }
 }

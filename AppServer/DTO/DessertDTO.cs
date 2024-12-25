@@ -9,7 +9,7 @@
 
         public double Price { get; set; }
 
-        public byte[] DessertImage { get; set; }
+        public string? DessertImagePath { get; set; }
 
         public int StatusCode { get; set; }
 
@@ -21,7 +21,6 @@
             this.DessertName = modelDessert.DessertName;
             this.DessertTypeId = modelDessert.DessertTypeId;
             this.Price = modelDessert.Price;
-            this.DessertImage = modelDessert.DessertImage;
             this.StatusCode = modelDessert.StatusCode;
         }
 
@@ -33,7 +32,6 @@
                 DessertName = this.DessertName,
                 DessertTypeId = this.DessertTypeId,
                 Price = this.Price,
-                DessertImage = this.DessertImage,
                 StatusCode = this.StatusCode
             };
 

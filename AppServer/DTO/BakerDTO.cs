@@ -9,6 +9,7 @@
 
         public int StatusCode { get; set; }
 
+        public double Profits { get; set; }
         public BakerDTO() { }
 
         public BakerDTO(Models.Baker modelBaker)
@@ -17,6 +18,7 @@
             this.HighestPrice = modelBaker.HighestPrice;
             this.ConfectioneryTypeId = modelBaker.ConfectioneryTypeId;
             this.StatusCode = modelBaker.StatusCode;
+            this.Profits = modelBaker.Profits;
         }
 
         public Models.Baker GetModels()
@@ -26,7 +28,8 @@
                 BakerId = this.BakerId,
                 HighestPrice = this.HighestPrice,
                 ConfectioneryTypeId = this.ConfectioneryTypeId,
-                StatusCode = this.StatusCode
+                StatusCode = this.StatusCode,
+                Profits = this.Profits
             };
 
             return modelsBaker;
