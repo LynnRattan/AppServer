@@ -14,9 +14,23 @@
         public BakerDTO(Models.Baker modelBaker)
         {
             this.BakerId = modelBaker.BakerId;
-            this.HighestPrice = HighestPrice;
-            this.ConfectioneryTypeId = ConfectioneryTypeId;
-            this.StatusCode = StatusCode;
+            this.HighestPrice = modelBaker.HighestPrice;
+            this.ConfectioneryTypeId = modelBaker.ConfectioneryTypeId;
+            this.StatusCode = modelBaker.StatusCode;
         }
+
+        public Models.Baker GetModels()
+        {
+            Models.Baker modelsBaker = new Models.Baker()
+            {
+                BakerId = this.BakerId,
+                HighestPrice = this.HighestPrice,
+                ConfectioneryTypeId = this.ConfectioneryTypeId,
+                StatusCode = this.StatusCode
+            };
+
+            return modelsBaker;
+        }
+
     }
 }

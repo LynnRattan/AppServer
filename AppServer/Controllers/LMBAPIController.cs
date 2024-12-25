@@ -69,17 +69,30 @@ namespace AppServer.Controllers
 
 
         [HttpPost("signup")]
-        public IActionResult Register([FromBody] DTO.UserDTO userDto)
+        public IActionResult Register([FromBody] DTO.UserBakerDTO userBakerDto)
         {
             try
             {
                 HttpContext.Session.Clear(); //Logout any previous login attempt
+
+                DTO.UserDTO userDto = userBakerDto.GetUserModels();
 
                 //Create model user class
                 Models.User modelsUser = userDto.GetModels();
 
                 context.Users.Add(modelsUser);
                 context.SaveChanges();
+
+                userBakerDto.UserId = modelsUser.UserId;
+
+                if (modelsUser.UserTypeId == 2)
+                {
+                    DTO.BakerDTO bakerDto = userBakerDto.GetBakerModels();
+                    Models.Baker modelsBaker = bakerDto.GetModels();
+
+                    context.Bakers.Add(modelsBaker);
+                    context.SaveChanges();
+                }
 
                 //User was added!
                 DTO.UserDTO dtoUser = new DTO.UserDTO(modelsUser);
@@ -92,6 +105,40 @@ namespace AppServer.Controllers
             }
 
         }
+
+        //[HttpPost("bakersignup")]
+        //public IActionResult RegisterBaker([FromBody] DTO.UserBakerDTO userBakerDto)
+        //{
+        //    try
+        //    {
+        //        UserDTO userDto = userBakerDto.GetUserModels();
+        //        Register(userDto);
+        //        //HttpContext.Session.Clear(); ////Logout any previous login attempt
+        //        User modelUser = userDto.GetModels();
+        //        foreach (User u in context.Users)
+        //        {
+        //            if (u.UserId == modelUser.UserId)
+        //            {
+        //                BakerDTO bakerDto = userBakerDto.GetBakerModels();
+        //                //Create model user class
+        //                Models.Baker modelsBaker = bakerDto.GetModels();
+
+        //                context.Bakers.Add(modelsBaker);
+        //                context.SaveChanges();
+
+        //                //User was added!
+        //                DTO.BakerDTO dtoBaker = new DTO.BakerDTO(modelsBaker);
+        //                return Ok(dtoBaker);
+        //            }
+        //        }
+        //        return BadRequest();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+
+        //}
 
         [HttpPost("UploadProfileImage")]
         public async Task<IActionResult> UploadProfileImageAsync(IFormFile file)

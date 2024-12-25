@@ -107,6 +107,11 @@ CREATE TABLE OrderedDesserts (
     insert into Statuses values(1,'Pending')
     insert into Statuses values(2,'Approved')
     insert into Statuses values(3,'Declined')
+
+    insert into ConfectioneryTypes values(1, 'Bakery')
+    insert into ConfectioneryTypes values(2, 'Patisserie')
+    insert into ConfectioneryTypes values(3, 'Homemade')
+    insert into ConfectioneryTypes values(4, 'Everything')
     
 
     -- Create a login for the admin user
@@ -129,4 +134,6 @@ scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Initial Catalog=AppServer_DB
 
 
 SELECT * FROM Users
+SELECT * FROM Bakers
 SELECT * FROM UserTypes
+SELECT * FROM ConfectioneryTypes

@@ -15,7 +15,7 @@ public partial class Baker
 
     public int? ConfectioneryTypeId { get; set; }
 
-    public int? StatusCode { get; set; }
+    public int StatusCode { get; set; }
 
     public double? Profits { get; set; }
 
