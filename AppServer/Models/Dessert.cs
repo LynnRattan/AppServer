@@ -14,7 +14,7 @@ public partial class Dessert
     [StringLength(100)]
     public string? DessertName { get; set; }
 
-    public int? BakerId { get; set; }
+    public int BakerId { get; set; }
 
     public int DessertTypeId { get; set; }
 

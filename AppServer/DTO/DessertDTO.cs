@@ -13,6 +13,8 @@
 
         public int StatusCode { get; set; }
 
+        public int BakerId { get; set; }
+
         public DessertDTO() { }
 
         public DessertDTO(Models.Dessert modelDessert)
@@ -22,6 +24,7 @@
             this.DessertTypeId = modelDessert.DessertTypeId;
             this.Price = modelDessert.Price;
             this.StatusCode = modelDessert.StatusCode;
+            this.BakerId = modelDessert.BakerId;
         }
 
         public Models.Dessert GetModels()
@@ -32,7 +35,8 @@
                 DessertName = this.DessertName,
                 DessertTypeId = this.DessertTypeId,
                 Price = this.Price,
-                StatusCode = this.StatusCode
+                StatusCode = this.StatusCode,
+                BakerId=this.BakerId
             };
 
             return modelsDessert;

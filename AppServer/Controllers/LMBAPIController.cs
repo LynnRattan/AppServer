@@ -4,6 +4,7 @@ using AppServer.Models;
 using System.Runtime.InteropServices.Marshalling;
 using AppServer.DTO;
 using AppServer.Models;
+using Microsoft.Identity.Client;
 
 namespace AppServer.Controllers
 {
@@ -284,6 +285,32 @@ namespace AppServer.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpGet("getbakers")]
+        public List<BakerDTO> GetBakers()
+        {
+            try
+            {
+                List<Baker> bakers =  context.GetBakers();
+                List<BakerDTO> newBakers = new();
+                foreach (Baker b in bakers)
+                {
+                    newBakers.Add(new BakerDTO()
+                    {
+                        BakerId = b.BakerId,
+                        HighestPrice = b.HighestPrice,
+                        ConfectioneryTypeId = b.ConfectioneryTypeId,
+                        StatusCode = b.StatusCode,
+                        Profits = b.Profits
+                    });
+                }
+                return newBakers;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
     }
     }

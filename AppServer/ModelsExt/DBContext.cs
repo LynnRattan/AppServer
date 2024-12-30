@@ -11,5 +11,10 @@ namespace AppServer.Models
         {
             return this.Users.Where(u => u.Mail == mail).FirstOrDefault();
         }
+
+        public List<Baker> GetBakers()
+        {
+            return this.Bakers.ToList();
+        }
     }
 }
