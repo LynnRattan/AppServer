@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.Marshalling;
 using AppServer.DTO;
 using AppServer.Models;
 using Microsoft.Identity.Client;
+using System.Threading.Tasks.Sources;
 
 namespace AppServer.Controllers
 {
@@ -310,6 +311,53 @@ namespace AppServer.Controllers
             catch(Exception ex)
             {
                 return null;
+            }
+        }
+
+        [HttpPost("approvebaker")]
+        public IActionResult ApproveBaker(int bakerId)
+        {
+            if (context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault().StatusCode == 1)
+            {
+                try
+            {
+
+                Baker baker = context.GetBaker(bakerId);
+                baker.StatusCode = 2;
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("declinebaker")]
+        public IActionResult DeclineBaker(int bakerId)
+        {
+            if (context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault().StatusCode == 1)
+            {
+                try
+                {
+                    Baker baker = context.GetBaker(bakerId);
+                    baker.StatusCode = 3;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
             }
         }
     }

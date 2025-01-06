@@ -99,25 +99,31 @@ CREATE TABLE OrderedDesserts (
     Quantity INT, --כמות--
     Price FLOAT --מחיר--
     );
-    insert into UserTypes values(1,'User')
-    insert into UserTypes values(2,'Confectioner')
-    insert into UserTypes values(3,'Admin')
-    insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin')
-
-    insert into Statuses values(1,'Pending')
-    insert into Statuses values(2,'Approved')
-    insert into Statuses values(3,'Declined')
 
     insert into ConfectioneryTypes values(1, 'Bakery')
     insert into ConfectioneryTypes values(2, 'Patisserie')
     insert into ConfectioneryTypes values(3, 'Homemade')
     insert into ConfectioneryTypes values(4, 'Everything')
 
+    insert into UserTypes values(1,'User')
+    insert into UserTypes values(2,'Confectioner')
+    insert into UserTypes values(3,'Admin')
+  
+
+    insert into Statuses values(1,'Pending')
+    insert into Statuses values(2,'Approved')
+    insert into Statuses values(3,'Declined')
+
+    
+
     insert into DessertTypes values(1,'Cake')
     insert into DessertTypes values(2,'Cupcake')
     insert into DessertTypes values(3,'Cookie')
     insert into DessertTypes values(4,'Pastry')
     
+      insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin')
+    insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('check','check@gmail.com','check1',2,'check')
+    insert into Bakers (BakerId,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(2,10,1,1,0)
 
     -- Create a login for the admin user
 CREATE LOGIN [AdminLogin] WITH PASSWORD = '12345';
