@@ -317,7 +317,7 @@ namespace AppServer.Controllers
         [HttpPost("approvebaker")]
         public IActionResult ApproveBaker(int bakerId)
         {
-            if (context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault().StatusCode == 1)
+            if (context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault() != null && context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault().StatusCode == 1)
             {
                 try
             {
@@ -341,7 +341,7 @@ namespace AppServer.Controllers
         [HttpPost("declinebaker")]
         public IActionResult DeclineBaker(int bakerId)
         {
-            if (context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault().StatusCode == 1)
+            if (context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault() != null && context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault().StatusCode == 1)
             {
                 try
                 {
