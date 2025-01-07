@@ -300,6 +300,7 @@ namespace AppServer.Controllers
                     newBakers.Add(new BakerDTO()
                     {
                         BakerId = b.BakerId,
+                        ConfectioneryName = b.ConfectioneryName,
                         HighestPrice = b.HighestPrice,
                         ConfectioneryTypeId = b.ConfectioneryTypeId,
                         StatusCode = b.StatusCode,

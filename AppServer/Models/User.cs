@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppServer.Models;
 
+[Index("Mail", Name = "UQ__Users__2724B2D1070B2DD3", IsUnique = true)]
 public partial class User
 {
     [Key]
@@ -21,11 +22,11 @@ public partial class User
     public string? Password { get; set; }
 
     [StringLength(100)]
-    public string?  ProfileName { get; set; }
+    public string? ProfileName { get; set; }
 
-    public int UserTypeId { get; set; }
+    public int? UserTypeId { get; set; }
 
-    //public byte[]? ProfileImage { get; set; }
+    public byte[]? ProfileImage { get; set; }
 
     [InverseProperty("BakerNavigation")]
     public virtual Baker? Baker { get; set; }

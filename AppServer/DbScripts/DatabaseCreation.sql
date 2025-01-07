@@ -40,7 +40,7 @@ CREATE TABLE Users (
     Mail NVARCHAR(100) Unique,      --מייל של משתמש--
     Username NVARCHAR(100),  --שם משתמש--
     [Password] NVARCHAR(100),    --סיסמה--
-    [ProfileName] NVARCHAR(100),   --שם קונה/קונדיטוריה--
+    [ProfileName] NVARCHAR(100),   --שם פרופיל--
      UserTypeId INT,  --מפתח זר לטבלת סוגי משתמש--
     FOREIGN KEY (UserTypeId) REFERENCES UserTypes(UserTypeId),  --סוג משתמש--
     ProfileImage VARBINARY(MAX)  --תמונת פרופיל--
@@ -50,6 +50,7 @@ CREATE TABLE Users (
 CREATE TABLE Bakers (
     BakerId INT PRIMARY KEY,
     FOREIGN KEY (BakerId) REFERENCES Users(UserId), --מפתח ראשי--
+    ConfectioneryName NVARCHAR(100),
     HighestPrice FLOAT, --טווח מחירים--
     ConfectioneryTypeId INT, --מפתח זר לטבלת סוגי קונדיטוריה--
     FOREIGN KEY (ConfectioneryTypeId) REFERENCES ConfectioneryTypes(ConfectioneryTypeId), --סוג קונדיטוריה--
@@ -123,7 +124,7 @@ CREATE TABLE OrderedDesserts (
     
       insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin')
     insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('check','check@gmail.com','check1',2,'check')
-    insert into Bakers (BakerId,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(2,10,1,1,0)
+    insert into Bakers (BakerId,ConfectioneryName,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(2,'Sweet',10,1,1,0)
 
     -- Create a login for the admin user
 CREATE LOGIN [AdminLogin] WITH PASSWORD = '12345';
@@ -151,3 +152,5 @@ SELECT * FROM ConfectioneryTypes
 SELECT * FROM DessertTypes
 SELECT * FROM Statuses
 SELECT * FROM Desserts
+
+

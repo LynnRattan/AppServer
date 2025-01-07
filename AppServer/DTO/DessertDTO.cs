@@ -5,15 +5,15 @@
         public int DessertId { get; set; }
         public string DessertName { get; set; }
 
-        public int DessertTypeId { get; set; }
+        public int? DessertTypeId { get; set; }
 
-        public double Price { get; set; }
+        public double? Price { get; set; }
 
         public string? DessertImagePath { get; set; }
 
-        public int StatusCode { get; set; }
+        public int? StatusCode { get; set; }
 
-        public int BakerId { get; set; }
+        public int? BakerId { get; set; }
 
         public DessertDTO() { }
 

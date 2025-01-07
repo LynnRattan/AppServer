@@ -11,20 +11,20 @@ public partial class Order
     [Key]
     public int OrderId { get; set; }
 
-    public int StatusCode { get; set; }
+    public int? StatusCode { get; set; }
 
-    public int CustomerId { get; set; }
+    public int? CustomerId { get; set; }
 
-    public int BakerId { get; set; }
+    public int? BakerId { get; set; }
 
-    public DateOnly OrderDate { get; set; }
+    public DateOnly? OrderDate { get; set; }
 
     public DateOnly? ArrivalDate { get; set; }
 
     [StringLength(100)]
     public string? Adress { get; set; }
 
-    public double TotalPrice { get; set; }
+    public double? TotalPrice { get; set; }
 
     [ForeignKey("BakerId")]
     [InverseProperty("Orders")]

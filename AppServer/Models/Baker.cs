@@ -11,13 +11,16 @@ public partial class Baker
     [Key]
     public int BakerId { get; set; }
 
+    [StringLength(100)]
+    public string? ConfectioneryName { get; set; }
+
     public double? HighestPrice { get; set; }
 
     public int? ConfectioneryTypeId { get; set; }
 
-    public int StatusCode { get; set; }
+    public int? StatusCode { get; set; }
 
-    public double Profits { get; set; }
+    public double? Profits { get; set; }
 
     [ForeignKey("BakerId")]
     [InverseProperty("Baker")]
