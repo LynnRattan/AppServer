@@ -316,7 +316,7 @@ namespace AppServer.Controllers
         }
 
         [HttpPost("approvebaker")]
-        public IActionResult ApproveBaker(int bakerId)
+        public IActionResult ApproveBaker([FromBody]int bakerId)
         {
             if (context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault() != null && context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault().StatusCode == 1)
             {
@@ -340,7 +340,7 @@ namespace AppServer.Controllers
         }
 
         [HttpPost("declinebaker")]
-        public IActionResult DeclineBaker(int bakerId)
+        public IActionResult DeclineBaker([FromBody]int bakerId)
         {
             if (context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault() != null && context.Bakers.Where<Baker>(b => b.BakerId == bakerId).FirstOrDefault().StatusCode == 1)
             {
@@ -348,6 +348,81 @@ namespace AppServer.Controllers
                 {
                     Baker baker = context.GetBaker(bakerId);
                     baker.StatusCode = 3;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpGet("getdesserts")]
+        public List<DessertDTO> GetDesserts()
+        {
+            try
+            {
+                List<Dessert> desserts = context.GetDesserts();
+                List<DessertDTO> newDesserts = new();
+                foreach (Dessert d in desserts)
+                {
+                    newDesserts.Add(new DessertDTO()
+                    {
+                        DessertId = d.DessertId,
+                        DessertName = d.DessertName,
+                        DessertTypeId = d.DessertTypeId,
+                        Price = d.Price,
+                        StatusCode = d.StatusCode,
+                        BakerId = d.BakerId
+                    });
+                }
+                return newDesserts;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        [HttpPost("approvedessert")]
+        public IActionResult ApproveDessert([FromBody] int dessertId)
+        {
+            if (context.Desserts.Where<Dessert>(b => b.DessertId == dessertId).FirstOrDefault() != null && context.Desserts.Where<Dessert>(b => b.DessertId == dessertId).FirstOrDefault().StatusCode == 1)
+            {
+                try
+                {
+
+                    Dessert dessert = context.GetDessert(dessertId);
+                    dessert.StatusCode = 2;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("declinedessert")]
+        public IActionResult DeclineDessert([FromBody] int dessertId)
+        {
+            if (context.Desserts.Where<Dessert>(b => b.DessertId == dessertId).FirstOrDefault() != null && context.Desserts.Where<Dessert>(b => b.DessertId == dessertId).FirstOrDefault().StatusCode == 1)
+            {
+                try
+                {
+
+                    Dessert dessert = context.GetDessert(dessertId);
+                    dessert.StatusCode = 3;
                     context.SaveChanges();
                     return Ok();
                 }

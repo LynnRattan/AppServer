@@ -21,5 +21,14 @@ namespace AppServer.Models
         {
             return this.Bakers.ToList();
         }
+        public List<Dessert> GetDesserts()
+        {
+            return this.Desserts.ToList();
+        }
+
+        public Dessert? GetDessert(int DessertId)
+        {
+            return this.Desserts.Where(b => b.DessertId == DessertId).FirstOrDefault();
+        }
     }
 }
