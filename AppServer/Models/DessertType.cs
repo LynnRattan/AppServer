@@ -12,7 +12,7 @@ public partial class DessertType
     public int DessertTypeId { get; set; }
 
     [StringLength(100)]
-    public string? DessertTypeName { get; set; }
+    public string DessertTypeName { get; set; } = null!;
 
     [InverseProperty("DessertType")]
     public virtual ICollection<Dessert> Desserts { get; set; } = new List<Dessert>();

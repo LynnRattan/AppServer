@@ -436,5 +436,52 @@ namespace AppServer.Controllers
                 return Unauthorized();
             }
         }
+
+
+        [HttpGet("getconfectionerytypes")]
+        public IActionResult GetConfectioneryTypes()
+        {
+            try
+            {
+                List<DTO.ConfectioneryTypeDTO> dtoConfectioneryTypes = new List<DTO.ConfectioneryTypeDTO>();
+                List<ConfectioneryType> modelTypes = context.ConfectioneryTypes.ToList();
+                foreach (ConfectioneryType type in modelTypes)
+                {
+                    dtoConfectioneryTypes.Add(new DTO.ConfectioneryTypeDTO()
+                    {
+                        ConfectioneryTypeId = type.ConfectioneryTypeId,
+                        ConfectioneryTypeName = type.ConfectioneryTypeName
+                    });
+                }
+                return Ok(dtoConfectioneryTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("getdesserttypes")]
+        public IActionResult GetDessertTypes()
+        {
+            try
+            {
+                List<DTO.DessertTypeDTO> dtoDessertTypes = new List<DTO.DessertTypeDTO>();
+                List<DessertType> modelTypes = context.DessertTypes.ToList();
+                foreach (DessertType type in modelTypes)
+                {
+                    dtoDessertTypes.Add(new DTO.DessertTypeDTO()
+                    {
+                        DessertTypeId = type.DessertTypeId,
+                        DessertTypeName = type.DessertTypeName
+                    });
+                }
+                return Ok(dtoDessertTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
     }

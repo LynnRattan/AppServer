@@ -12,7 +12,7 @@ public partial class ConfectioneryType
     public int ConfectioneryTypeId { get; set; }
 
     [StringLength(100)]
-    public string? ConfectioneryTypeName { get; set; }
+    public string ConfectioneryTypeName { get; set; } = null!;
 
     [InverseProperty("ConfectioneryType")]
     public virtual ICollection<Baker> Bakers { get; set; } = new List<Baker>();
