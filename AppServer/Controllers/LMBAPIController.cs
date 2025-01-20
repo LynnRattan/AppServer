@@ -439,7 +439,7 @@ namespace AppServer.Controllers
 
 
         [HttpGet("getconfectionerytypes")]
-        public IActionResult GetConfectioneryTypes()
+        public List<ConfectioneryTypeDTO> GetConfectioneryTypes()
         {
             try
             {
@@ -453,16 +453,16 @@ namespace AppServer.Controllers
                         ConfectioneryTypeName = type.ConfectioneryTypeName
                     });
                 }
-                return Ok(dtoConfectioneryTypes);
+                return dtoConfectioneryTypes;
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return null;
             }
         }
 
         [HttpGet("getdesserttypes")]
-        public IActionResult GetDessertTypes()
+        public List<DessertTypeDTO> GetDessertTypes()
         {
             try
             {
@@ -476,11 +476,11 @@ namespace AppServer.Controllers
                         DessertTypeName = type.DessertTypeName
                     });
                 }
-                return Ok(dtoDessertTypes);
+                return dtoDessertTypes;
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return null;
             }
         }
     }
