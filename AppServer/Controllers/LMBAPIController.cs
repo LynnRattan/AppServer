@@ -483,5 +483,64 @@ namespace AppServer.Controllers
                 return null;
             }
         }
+
+        [HttpGet("getbakerdesserts")]
+        public List<DessertDTO> GetBakerDesserts([FromBody] int bakerId)
+        {
+            try
+            {
+                List<DTO.DessertDTO> desserts = new List<DTO.DessertDTO>();
+                List<Dessert> modelDesserts = context.GetDesserts();
+                foreach (Dessert d in modelDesserts)
+                {
+                    if (d.BakerId == bakerId)
+                    {
+                        desserts.Add(new DTO.DessertDTO()
+                        {
+                            DessertId = d.DessertId,
+                            DessertName = d.DessertName,
+                            DessertTypeId = d.DessertTypeId,
+                            Price = d.Price,
+                            StatusCode = d.StatusCode,
+                            BakerId = d.BakerId
+                        });
+                    }
+                }
+                return desserts;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        
+        [HttpPost("getbaker")]
+        public IActionResult GetBaker([FromBody] int bakerId)
+        {
+            try
+            {
+               
+                Baker modelBaker = context.GetBaker(bakerId);
+                if (modelBaker != null)
+                {
+                    BakerDTO bakerDTO = new BakerDTO()
+                    {
+                        BakerId = modelBaker.BakerId,
+                        ConfectioneryName = modelBaker.ConfectioneryName,
+                        HighestPrice = modelBaker.HighestPrice,
+                        ConfectioneryTypeId = modelBaker.ConfectioneryTypeId,
+                        StatusCode = modelBaker.StatusCode,
+                        Profits = modelBaker.Profits
+
+                    };
+                    return Ok(bakerDTO);
+                }
+                else return null;  
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
     }
