@@ -484,7 +484,7 @@ namespace AppServer.Controllers
             }
         }
 
-        [HttpGet("getbakerdesserts")]
+        [HttpPost("getbakerdesserts")]
         public List<DessertDTO> GetBakerDesserts([FromBody] int bakerId)
         {
             try
@@ -542,5 +542,75 @@ namespace AppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("getstatusestypes")]
+        public List<StatusDTO> GetStatusesTypes()
+        {
+            try
+            {
+                List<DTO.StatusDTO> dtoStatusTypes = new List<DTO.StatusDTO>();
+                List<Status> modelTypes = context.Statuses.ToList();
+                foreach (Status type in modelTypes)
+                {
+                    dtoStatusTypes.Add(new DTO.StatusDTO()
+                    {
+                        StatusCode = type.StatusCode,
+                        StatusName = type.StatusName
+                    });
+                }
+                return dtoStatusTypes;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        [HttpPost("updateHighestPrice")]
+        public IActionResult UpdateHighestPrice([FromBody] BakerDTO bakerDto)
+        {
+
+            try
+            {
+                Baker? baker = context.Bakers.Where<Baker>(b => b.BakerId == bakerDto.BakerId).FirstOrDefault();
+                    baker.HighestPrice = bakerDto.HighestPrice;
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("getusers")]
+        public List<UserDTO> GetUsers()
+        {
+            try
+            {
+                List<DTO.UserDTO> dtoUsers = new List<DTO.UserDTO>();
+                List<User> modelUsers = context.Users.ToList();
+                foreach (User u in modelUsers)
+                {
+                    dtoUsers.Add(new DTO.UserDTO()
+                    {
+                        UserId = u.UserId,
+                        Username = u.Username,
+                        Mail = u.Mail,
+                        Password = u.Password,
+                        ProfileName = u.ProfileName,
+                        UserTypeId = u.UserTypeId
+                    });
+                }
+                return dtoUsers;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+
     }
-    }
+}
