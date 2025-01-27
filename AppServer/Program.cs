@@ -42,6 +42,8 @@ namespace AppServer
             app.UseSession(); //In order to enable session management
             #endregion 
 
+            app.UseStaticFiles();
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

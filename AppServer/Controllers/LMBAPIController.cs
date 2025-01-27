@@ -59,7 +59,7 @@ namespace AppServer.Controllers
                 HttpContext.Session.SetString("loggedInUser", modelsUser.Mail);
 
                 DTO.UserDTO dtoUser = new DTO.UserDTO(modelsUser);
-                //dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.Id);
+                dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.UserId,"profileImages");
                 return Ok(dtoUser);
             }
             catch (Exception ex)
@@ -98,7 +98,7 @@ namespace AppServer.Controllers
 
                 //User was added!
                 DTO.UserDTO dtoUser = new DTO.UserDTO(modelsUser);
-                dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.UserId);
+                dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.UserId,"profileImages");
                 return Ok(dtoUser);
             }
             catch (Exception ex)
@@ -203,7 +203,7 @@ namespace AppServer.Controllers
             }
 
             DTO.UserDTO dtoUser = new DTO.UserDTO(user);
-            dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.UserId);
+            dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.UserId,"profileImages");
             return Ok(dtoUser);
         }
 
@@ -239,24 +239,24 @@ namespace AppServer.Controllers
 
         //this function check which profile image exist and return the virtual path of it.
         //if it does not exist it returns the default profile image virtual path
-        private string GetProfileImageVirtualPath(int userId)
+        private string GetProfileImageVirtualPath(int Id,string folder)
         {
-            string virtualPath = $"/profileImages/{userId}";
-            string path = $"{this.webHostEnvironment.WebRootPath}\\profileImages\\{userId}.png";
+            string virtualPath = $"/{folder}/{Id}";
+            string path = $"{this.webHostEnvironment.WebRootPath}\\{folder}\\{Id}.png";
             if (System.IO.File.Exists(path))
             {
                 virtualPath += ".png";
             }
             else
             {
-                path = $"{this.webHostEnvironment.WebRootPath}\\profileImages\\{userId}.jpg";
+                path = $"{this.webHostEnvironment.WebRootPath}\\{folder}\\{Id}.jpg";
                 if (System.IO.File.Exists(path))
                 {
                     virtualPath += ".jpg";
                 }
                 else
                 {
-                    virtualPath = $"/profileImages/default.png";
+                    virtualPath = $"/{folder}/default.png";
                 }
             }
 
