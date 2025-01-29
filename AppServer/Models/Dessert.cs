@@ -22,7 +22,7 @@ public partial class Dessert
 
     public double? Price { get; set; }
 
-    public byte[]? DessertImage { get; set; }
+    public string? DessertImage { get; set; }
 
     [ForeignKey("BakerId")]
     [InverseProperty("Desserts")]

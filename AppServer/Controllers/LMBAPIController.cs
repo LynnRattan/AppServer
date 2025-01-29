@@ -6,6 +6,7 @@ using AppServer.DTO;
 using AppServer.Models;
 using Microsoft.Identity.Client;
 using System.Threading.Tasks.Sources;
+using System.Threading;
 
 namespace AppServer.Controllers
 {
@@ -718,6 +719,27 @@ namespace AppServer.Controllers
         }
 
 
+        #region updaters
 
+        [HttpPost("updateDessertImage")]
+        public IActionResult UpdateDessertImage([FromBody] DessertDTO dessertDTO)
+        {
+
+            try
+            {
+                Dessert? dessert = context.Desserts.Where(d => d.DessertId == dessertDTO.DessertId).FirstOrDefault();
+                dessert.DessertImage = dessertDTO.des;
+                context.SaveChanges();
+                return Ok(monster);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
     }
+
+
 }

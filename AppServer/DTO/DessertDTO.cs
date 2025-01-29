@@ -9,7 +9,7 @@
 
         public double? Price { get; set; }
 
-        public string? DessertImagePath { get; set; }
+        public string? DessertImage { get; set; }
 
         public int? StatusCode { get; set; }
 

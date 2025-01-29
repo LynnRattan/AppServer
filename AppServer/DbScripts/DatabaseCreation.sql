@@ -13,48 +13,48 @@ Go
     --טבלת סטטוסים--
 CREATE TABLE Statuses (
     StatusCode INT PRIMARY KEY, --מפתח ראשי--
-    StatusName NVARCHAR(100) --שם סטטוס--
+    StatusName NVARCHAR(100) NOT NULL --שם סטטוס--
     );
 
     --טבלת קונדיטוריות--
 CREATE TABLE ConfectioneryTypes (
     ConfectioneryTypeId INT PRIMARY KEY, --מפתח ראשי--
-    ConfectioneryTypeName NVARCHAR(100) --שם סוג של קודניטוריה--
+    ConfectioneryTypeName NVARCHAR(100) NOT NULL --שם סוג של קודניטוריה--
     );
 
     --טבלת סוגי קינוחים--
 CREATE TABLE DessertTypes (
     DessertTypeId INT PRIMARY KEY, --מפתח ראשי--
-    DessertTypeName NVARCHAR(100) --שם סוג קינוח--
+    DessertTypeName NVARCHAR(100) NOT NULL --שם סוג קינוח--
     );
 
     --טבלת סוגי משתמש--
     CREATE TABLE UserTypes (
     UserTypeId INT PRIMARY KEY, --מפתח ראשי--
-    UserTypeName NVARCHAR(100) --שם סוג משתמש--
+    UserTypeName NVARCHAR(100) NOT NULL --שם סוג משתמש--
     );
 
     --טבלת משתמשים--
 CREATE TABLE Users (
     UserId INT PRIMARY KEY Identity,     --מפתח ראשי--
-    Mail NVARCHAR(100) Unique,      --מייל של משתמש--
-    Username NVARCHAR(100),  --שם משתמש--
-    [Password] NVARCHAR(100),    --סיסמה--
-    [ProfileName] NVARCHAR(100),   --שם פרופיל--
-     UserTypeId INT,  --מפתח זר לטבלת סוגי משתמש--
+    Mail NVARCHAR(100) Unique NOT NULL,      --מייל של משתמש--
+    Username NVARCHAR(100) NOT NULL,  --שם משתמש--
+    [Password] NVARCHAR(100) NOT NULL,    --סיסמה--
+    [ProfileName] NVARCHAR(100) NOT NULL,   --שם פרופיל--
+     UserTypeId INT NOT NULL,  --מפתח זר לטבלת סוגי משתמש--
     FOREIGN KEY (UserTypeId) REFERENCES UserTypes(UserTypeId),  --סוג משתמש--
-    ProfileImage VARBINARY(MAX)  --תמונת פרופיל--
+    ProfileImage NVARCHAR(100)  --תמונת פרופיל--
     );
 
     --טבלת קודניטורים--
 CREATE TABLE Bakers (
     BakerId INT PRIMARY KEY,
     FOREIGN KEY (BakerId) REFERENCES Users(UserId), --מפתח ראשי--
-    ConfectioneryName NVARCHAR(100),
-    HighestPrice FLOAT, --טווח מחירים--
-    ConfectioneryTypeId INT, --מפתח זר לטבלת סוגי קונדיטוריה--
+    ConfectioneryName NVARCHAR(100) NOT NULL,
+    HighestPrice FLOAT NOT NULL, --טווח מחירים--
+    ConfectioneryTypeId INT NOT NULL, --מפתח זר לטבלת סוגי קונדיטוריה--
     FOREIGN KEY (ConfectioneryTypeId) REFERENCES ConfectioneryTypes(ConfectioneryTypeId), --סוג קונדיטוריה--
-    StatusCode INT, --מפתח זר לטבלת סטטוסים--
+    StatusCode INT NOT NULL, --מפתח זר לטבלת סטטוסים--
     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קונדיטוריה--
     Profits FLOAT --רווח--
     );
@@ -62,15 +62,15 @@ CREATE TABLE Bakers (
     --טבלת קינוחים--
 CREATE TABLE Desserts (
     DessertId INT PRIMARY KEY Identity, --מפתח ראשי--
-    DessertName NVARCHAR(100), --שם קניוח--
+    DessertName NVARCHAR(100) NOT NULL, --שם קניוח--
     BakerId INT --מפתח זר לטבלת קונדיטורים--
     FOREIGN KEY (BakerId) REFERENCES Bakers(BakerId), --מספר קונדיטור--
     DessertTypeId INT --מפתח זר לטבלת סוגי קינוח--
     FOREIGN KEY (DessertTypeId) REFERENCES DessertTypes(DessertTypeId), --סוג קינוח--
      StatusCode INT --מפתח זר לטבלת סטטוסים--
      FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קינוח--
-    Price FLOAT, --מחיר--
-    DessertImage VARBINARY(MAX) --תמונה של קינוח--
+    Price FLOAT NOT NULL, --מחיר--
+    DessertImage NVARCHAR(100) NOT NULL --תמונה של קינוח--
     );
 
     --טבלת הזמנות--
@@ -84,8 +84,8 @@ CREATE TABLE Orders (
     FOREIGN KEY (BakerId) REFERENCES Bakers(BakerId), --מספר קונדיטור--
     OrderDate Date, --תאריך הזמנה--
     ArrivalDate Date,  --תאריך הגעה--
-    Adress NVARCHAR(100), --כתובת--
-    TotalPrice FLOAT --מחיר כל ההזמנה--
+    Adress NVARCHAR(100) NOT NULL, --כתובת--
+    TotalPrice FLOAT NOT NULL --מחיר כל ההזמנה--
     );
 
     --טבלת קינוחים שהוזמנו--
@@ -97,8 +97,8 @@ CREATE TABLE OrderedDesserts (
     CONSTRAINT PK_Orders_Desserts PRIMARY KEY (OrderId,DessertId), --קישור מפתחות זרים--
     StatusCode INT --מפתח זר לטבלת סטטוסים--
     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קינוח שהוזמן--
-    Quantity INT, --כמות--
-    Price FLOAT --מחיר--
+    Quantity INT NOT NULL, --כמות--
+    Price FLOAT NOT NULL --מחיר--
     );
 
     insert into ConfectioneryTypes values(1, 'Bakery')
