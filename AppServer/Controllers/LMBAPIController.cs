@@ -237,6 +237,88 @@ namespace AppServer.Controllers
             return false;
         }
 
+        [HttpPost("UploadDessertImage")]
+        public async Task<IActionResult> UploadDessertImageAsync(IFormFile file, [FromQuery] int dessertId, int userId)
+        {
+            //Check if who is logged in
+            //string? userMail = HttpContext.Session.GetString("loggedInUser");
+            //if (string.IsNullOrEmpty(userMail))
+            //{
+            //    return Unauthorized("Baker is not logged in");
+            //}
+
+            //Get model user class from DB with matching email. 
+            Models.User? user = context.GetUser(userId);
+            //Clear the tracking of all objects to avoid double tracking
+            context.ChangeTracker.Clear();
+
+            if (user == null)
+            {
+                return Unauthorized("Baker is not found in the database");
+            }
+            if(user.UserTypeId != 2)
+            {
+                return Unauthorized("The logged in user is not a baker");
+            }
+
+            //Get model dessert class from DB with matching id. 
+            Models.Dessert? dessert = context.GetDessert(dessertId);
+            //Clear the tracking of all objects to avoid double tracking
+            context.ChangeTracker.Clear();
+
+            if (dessert == null)
+            {
+                return Unauthorized("Dessert is not found in the database");
+            }
+
+            //Read all files sent
+            long imagesSize = 0;
+
+            if (file.Length > 0)
+            {
+                //Check the file extention!
+                string[] allowedExtentions = { ".png", ".jpg" };
+                string extention = "";
+                if (file.FileName.LastIndexOf(".") > 0)
+                {
+                    extention = file.FileName.Substring(file.FileName.LastIndexOf(".")).ToLower();
+                }
+                if (!allowedExtentions.Where(e => e == extention).Any())
+                {
+                    //Extention is not supported
+                    return BadRequest("File sent with non supported extention");
+                }
+
+                //Build path in the web root (better to a specific folder under the web root
+                string filePath = $"{this.webHostEnvironment.WebRootPath}\\dessertImages\\{dessert.DessertId}{extention}";
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+
+                    if (IsImage(stream))
+                    {
+                        imagesSize += stream.Length;
+                    }
+                    else
+                    {
+                        //Delete the file if it is not supported!
+                        System.IO.File.Delete(filePath);
+                    }
+
+                }
+
+            }
+
+            DTO.DessertDTO dtoDessert = new DTO.DessertDTO(dessert);
+            dtoDessert.DessertImagePath = GetDessertImageVirtualPath(dtoDessert.DessertId, "dessertImages");
+            return Ok(dtoDessert);
+        }
+
+        
+
+       
+
         //this function check which profile image exist and return the virtual path of it.
         //if it does not exist it returns the default profile image virtual path
         private string GetProfileImageVirtualPath(int Id,string folder)
@@ -263,6 +345,31 @@ namespace AppServer.Controllers
             return virtualPath;
         }
 
+        //Same operation for dessert
+        private string GetDessertImageVirtualPath(int Id, string folder)
+        {
+            string virtualPath = $"/{folder}/{Id}";
+            string path = $"{this.webHostEnvironment.WebRootPath}\\{folder}\\{Id}.png";
+            if (System.IO.File.Exists(path))
+            {
+                virtualPath += ".png";
+            }
+            else
+            {
+                path = $"{this.webHostEnvironment.WebRootPath}\\{folder}\\{Id}.jpg";
+                if (System.IO.File.Exists(path))
+                {
+                    virtualPath += ".jpg";
+                }
+                else
+                {
+                    virtualPath = $"/{folder}/defaultD.png";
+                }
+            }
+
+            return virtualPath;
+        }
+
         [HttpPost("adddessert")]
         public IActionResult AddDessert([FromBody] DTO.DessertDTO dessertDto)
         {
@@ -278,7 +385,7 @@ namespace AppServer.Controllers
 
                 //Dessert was added!
                 DTO.DessertDTO dtoDessert = new DTO.DessertDTO(modelsDessert);
-                //dtoDessert.DessertImagePath = GetDessertImageVirtualPath(dtoDessert.DessertId,"dessertImage");
+                //dtoDessert.DessertImagePath = GetDessertImageVirtualPath(dtoDessert.DessertId, "dessertImage");
                 return Ok(dtoDessert);
             }
             catch (Exception ex)
