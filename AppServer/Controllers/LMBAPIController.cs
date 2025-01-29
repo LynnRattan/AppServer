@@ -278,7 +278,7 @@ namespace AppServer.Controllers
 
                 //Dessert was added!
                 DTO.DessertDTO dtoDessert = new DTO.DessertDTO(modelsDessert);
-                //dtoDessert.DesertImagePath = GetDessertImageVirtualPath(dtoDessert.DessertId);
+                //dtoDessert.DessertImagePath = GetDessertImageVirtualPath(dtoDessert.DessertId,"dessertImage");
                 return Ok(dtoDessert);
             }
             catch (Exception ex)
