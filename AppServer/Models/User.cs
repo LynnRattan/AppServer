@@ -6,27 +6,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppServer.Models;
 
-[Index("Mail", Name = "UQ__Users__2724B2D1070B2DD3", IsUnique = true)]
+[Index("Mail", Name = "UQ__Users__2724B2D1C8E3E5D5", IsUnique = true)]
 public partial class User
 {
     [Key]
     public int UserId { get; set; }
 
     [StringLength(100)]
-    public string? Mail { get; set; }
+    public string Mail { get; set; } = null!;
 
     [StringLength(100)]
-    public string? Username { get; set; }
+    public string Username { get; set; } = null!;
 
     [StringLength(100)]
-    public string? Password { get; set; }
+    public string Password { get; set; } = null!;
 
     [StringLength(100)]
-    public string? ProfileName { get; set; }
+    public string ProfileName { get; set; } = null!;
 
-    public int? UserTypeId { get; set; }
+    public int UserTypeId { get; set; }
 
-    public byte[]? ProfileImage { get; set; }
+    [StringLength(100)]
+    public string? ProfileImage { get; set; }
 
     [InverseProperty("BakerNavigation")]
     public virtual Baker? Baker { get; set; }
@@ -36,5 +37,5 @@ public partial class User
 
     [ForeignKey("UserTypeId")]
     [InverseProperty("Users")]
-    public virtual UserType? UserType { get; set; }
+    public virtual UserType UserType { get; set; } = null!;
 }

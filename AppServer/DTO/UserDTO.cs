@@ -11,7 +11,7 @@
 
         public string ProfileName { get; set; }
 
-        public int? UserTypeId { get; set; }
+        public int UserTypeId { get; set; }
 
         public string ProfileImagePath { get; set; } = "";
 

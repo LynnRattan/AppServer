@@ -12,7 +12,7 @@ public partial class UserType
     public int UserTypeId { get; set; }
 
     [StringLength(100)]
-    public string? UserTypeName { get; set; }
+    public string UserTypeName { get; set; } = null!;
 
     [InverseProperty("UserType")]
     public virtual ICollection<User> Users { get; set; } = new List<User>();

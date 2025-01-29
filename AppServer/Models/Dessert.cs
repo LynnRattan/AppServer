@@ -12,7 +12,7 @@ public partial class Dessert
     public int DessertId { get; set; }
 
     [StringLength(100)]
-    public string? DessertName { get; set; }
+    public string DessertName { get; set; } = null!;
 
     public int? BakerId { get; set; }
 
@@ -20,9 +20,10 @@ public partial class Dessert
 
     public int? StatusCode { get; set; }
 
-    public double? Price { get; set; }
+    public double Price { get; set; }
 
-    public string? DessertImage { get; set; }
+    [StringLength(100)]
+    public string DessertImage { get; set; } = null!;
 
     [ForeignKey("BakerId")]
     [InverseProperty("Desserts")]

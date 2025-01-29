@@ -12,7 +12,7 @@ public partial class Status
     public int StatusCode { get; set; }
 
     [StringLength(100)]
-    public string? StatusName { get; set; }
+    public string StatusName { get; set; } = null!;
 
     [InverseProperty("StatusCodeNavigation")]
     public virtual ICollection<Baker> Bakers { get; set; } = new List<Baker>();

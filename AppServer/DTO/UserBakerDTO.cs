@@ -7,12 +7,12 @@
         public string Username { get; set; }
         public string Password { get; set; }
         public string ProfileName { get; set; }
-        public int? UserTypeId { get; set; }
+        public int UserTypeId { get; set; }
         public string ProfileImagePath { get; set; } = "";
-        public string? ConfectioneryName { get; set; }
-        public double? HighestPrice { get; set; }
-        public int? ConfectioneryTypeId {  get; set; }
-        public int? StatusCode { get; set; }
+        public string ConfectioneryName { get; set; }
+        public double HighestPrice { get; set; }
+        public int ConfectioneryTypeId {  get; set; }
+        public int StatusCode { get; set; }
         public double? Profits { get; set; }
 
         public UserBakerDTO() { }

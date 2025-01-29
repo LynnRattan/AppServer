@@ -309,10 +309,12 @@ namespace AppServer.Controllers
 
                 }
 
-            }
-
+            }            
             DTO.DessertDTO dtoDessert = new DTO.DessertDTO(dessert);
-            dtoDessert.DessertImagePath = GetDessertImageVirtualPath(dtoDessert.DessertId, "dessertImages");
+            dtoDessert.DessertImage = GetDessertImageVirtualPath(dtoDessert.DessertId, "dessertImages");
+            dessert = context.Desserts.Where(d => d.DessertId == dtoDessert.DessertId).FirstOrDefault();
+            dessert.DessertImage = dtoDessert.DessertImage;
+            context.SaveChanges();
             return Ok(dtoDessert);
         }
 
@@ -380,7 +382,7 @@ namespace AppServer.Controllers
 
                 //Create model dessert class
                 Models.Dessert modelsDessert = dessertDto.GetModels();
-
+                modelsDessert.DessertImage = "/dessertImages/defaultD.png";
                 context.Desserts.Add(modelsDessert);
                 context.SaveChanges();
 
@@ -479,15 +481,7 @@ namespace AppServer.Controllers
                 List<DessertDTO> newDesserts = new();
                 foreach (Dessert d in desserts)
                 {
-                    newDesserts.Add(new DessertDTO()
-                    {
-                        DessertId = d.DessertId,
-                        DessertName = d.DessertName,
-                        DessertTypeId = d.DessertTypeId,
-                        Price = d.Price,
-                        StatusCode = d.StatusCode,
-                        BakerId = d.BakerId
-                    });
+                    newDesserts.Add(new DessertDTO(d));
                 }
                 return newDesserts;
             }
@@ -728,9 +722,9 @@ namespace AppServer.Controllers
             try
             {
                 Dessert? dessert = context.Desserts.Where(d => d.DessertId == dessertDTO.DessertId).FirstOrDefault();
-                dessert.DessertImage = dessertDTO.des;
+                dessert.DessertImage = dessertDTO.DessertImage;
                 context.SaveChanges();
-                return Ok(monster);
+                return Ok(dessert);
             }
             catch (Exception ex)
             {

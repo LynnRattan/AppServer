@@ -7,7 +7,7 @@
 
         public int? DessertTypeId { get; set; }
 
-        public double? Price { get; set; }
+        public double Price { get; set; }
 
         public string? DessertImage { get; set; }
 
@@ -25,6 +25,7 @@
             this.Price = modelDessert.Price;
             this.StatusCode = modelDessert.StatusCode;
             this.BakerId = modelDessert.BakerId;
+            this.DessertImage = modelDessert.DessertImage;
         }
 
         public Models.Dessert GetModels()

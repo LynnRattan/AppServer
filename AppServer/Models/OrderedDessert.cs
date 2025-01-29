@@ -17,9 +17,9 @@ public partial class OrderedDessert
 
     public int? StatusCode { get; set; }
 
-    public int? Quantity { get; set; }
+    public int Quantity { get; set; }
 
-    public double? Price { get; set; }
+    public double Price { get; set; }
 
     [ForeignKey("DessertId")]
     [InverseProperty("OrderedDesserts")]
