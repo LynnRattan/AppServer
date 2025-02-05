@@ -407,15 +407,10 @@ namespace AppServer.Controllers
                 List<BakerDTO> newBakers = new();
                 foreach (Baker b in bakers)
                 {
-                    newBakers.Add(new BakerDTO()
-                    {
-                        BakerId = b.BakerId,
-                        ConfectioneryName = b.ConfectioneryName,
-                        HighestPrice = b.HighestPrice,
-                        ConfectioneryTypeId = b.ConfectioneryTypeId,
-                        StatusCode = b.StatusCode,
-                        Profits = b.Profits
-                    });
+                    BakerDTO bdto = new BakerDTO(b);
+                    bdto.UserNavigation.ProfileImagePath = GetProfileImageVirtualPath(bdto.BakerId, "profileImages");
+                    newBakers.Add(bdto);
+                    
                 }
                 return newBakers;
             }
@@ -625,16 +620,8 @@ namespace AppServer.Controllers
                 Baker modelBaker = context.GetBaker(bakerId);
                 if (modelBaker != null)
                 {
-                    BakerDTO bakerDTO = new BakerDTO()
-                    {
-                        BakerId = modelBaker.BakerId,
-                        ConfectioneryName = modelBaker.ConfectioneryName,
-                        HighestPrice = modelBaker.HighestPrice,
-                        ConfectioneryTypeId = modelBaker.ConfectioneryTypeId,
-                        StatusCode = modelBaker.StatusCode,
-                        Profits = modelBaker.Profits
+                    BakerDTO bakerDTO = new BakerDTO(modelBaker);
 
-                    };
                     return Ok(bakerDTO);
                 }
                 else return null;  

@@ -12,6 +12,8 @@
         public int StatusCode { get; set; }
 
         public double? Profits { get; set; }
+        public UserDTO? UserNavigation { get; set; }
+
         public BakerDTO() { }
 
         public BakerDTO(Models.Baker modelBaker)
@@ -22,6 +24,8 @@
             this.ConfectioneryTypeId = modelBaker.ConfectioneryTypeId;
             this.StatusCode = modelBaker.StatusCode;
             this.Profits = modelBaker.Profits;
+            if (modelBaker.BakerNavigation != null) 
+                this.UserNavigation = new UserDTO(modelBaker.BakerNavigation);
         }
 
         public Models.Baker GetModels()
@@ -35,6 +39,10 @@
                 StatusCode = this.StatusCode,
                 Profits = this.Profits
             };
+
+            if (UserNavigation != null)
+                modelsBaker.BakerNavigation = UserNavigation.GetModels();
+
 
             return modelsBaker;
         }
