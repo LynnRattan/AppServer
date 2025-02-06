@@ -97,6 +97,7 @@ CREATE TABLE OrderedDesserts (
     CONSTRAINT PK_Orders_Desserts PRIMARY KEY (OrderId,DessertId), --קישור מפתחות זרים--
     StatusCode INT --מפתח זר לטבלת סטטוסים--
     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קינוח שהוזמן--
+    UserId INT
     Quantity INT NOT NULL, --כמות--
     Price FLOAT NOT NULL --מחיר--
     );
