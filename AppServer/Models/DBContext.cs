@@ -41,7 +41,7 @@ public partial class DBContext : DbContext
     {
         modelBuilder.Entity<Baker>(entity =>
         {
-            entity.HasKey(e => e.BakerId).HasName("PK__Bakers__51A73EC6100A00C9");
+            entity.HasKey(e => e.BakerId).HasName("PK__Bakers__51A73EC655FD5580");
 
             entity.Property(e => e.BakerId).ValueGeneratedNever();
 
@@ -60,14 +60,14 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<ConfectioneryType>(entity =>
         {
-            entity.HasKey(e => e.ConfectioneryTypeId).HasName("PK__Confecti__D3EF7D35F6C66A19");
+            entity.HasKey(e => e.ConfectioneryTypeId).HasName("PK__Confecti__D3EF7D35BAB45178");
 
             entity.Property(e => e.ConfectioneryTypeId).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<Dessert>(entity =>
         {
-            entity.HasKey(e => e.DessertId).HasName("PK__Desserts__2FF5148B0E41C2D9");
+            entity.HasKey(e => e.DessertId).HasName("PK__Desserts__2FF5148B67713099");
 
             entity.HasOne(d => d.Baker).WithMany(p => p.Desserts).HasConstraintName("FK__Desserts__BakerI__34C8D9D1");
 
@@ -78,14 +78,14 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<DessertType>(entity =>
         {
-            entity.HasKey(e => e.DessertTypeId).HasName("PK__DessertT__891B64BAD678FC44");
+            entity.HasKey(e => e.DessertTypeId).HasName("PK__DessertT__891B64BA61C161A9");
 
             entity.Property(e => e.DessertTypeId).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BCFD5D8B599");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BCF0D900C63");
 
             entity.HasOne(d => d.Baker).WithMany(p => p.Orders).HasConstraintName("FK__Orders__BakerId__3B75D760");
 
@@ -96,17 +96,13 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<OrderedDessert>(entity =>
         {
-            entity.HasKey(e => new { e.OrderId, e.DessertId }).HasName("PK_Orders_Desserts");
+            entity.HasKey(e => e.OrderedDessertId).HasName("PK__OrderedD__958EF40ED5A05A54");
 
             entity.HasOne(d => d.Baker).WithMany(p => p.OrderedDesserts).HasConstraintName("FK__OrderedDe__Baker__4222D4EF");
 
-            entity.HasOne(d => d.Dessert).WithMany(p => p.OrderedDesserts)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OrderedDe__Desse__3F466844");
+            entity.HasOne(d => d.Dessert).WithMany(p => p.OrderedDesserts).HasConstraintName("FK__OrderedDe__Desse__3F466844");
 
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderedDesserts)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OrderedDe__Order__3E52440B");
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderedDesserts).HasConstraintName("FK__OrderedDe__Order__3E52440B");
 
             entity.HasOne(d => d.StatusCodeNavigation).WithMany(p => p.OrderedDesserts).HasConstraintName("FK__OrderedDe__Statu__403A8C7D");
 
@@ -115,14 +111,14 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Status>(entity =>
         {
-            entity.HasKey(e => e.StatusCode).HasName("PK__Statuses__6A7B44FDFD352546");
+            entity.HasKey(e => e.StatusCode).HasName("PK__Statuses__6A7B44FD364BEF4E");
 
             entity.Property(e => e.StatusCode).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C8359F142");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C5DF0D6AD");
 
             entity.HasOne(d => d.UserType).WithMany(p => p.Users)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -131,7 +127,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<UserType>(entity =>
         {
-            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D8167F89FA0E");
+            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D816C2D10001");
 
             entity.Property(e => e.UserTypeId).ValueGeneratedNever();
         });

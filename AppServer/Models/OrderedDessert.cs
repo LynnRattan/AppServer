@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppServer.Models;
 
-[PrimaryKey("OrderId", "DessertId")]
 public partial class OrderedDessert
 {
     [Key]
-    public int OrderId { get; set; }
+    public int OrderedDessertId { get; set; }
 
-    [Key]
-    public int DessertId { get; set; }
+    public int? OrderId { get; set; }
+
+    public int? DessertId { get; set; }
 
     public int? StatusCode { get; set; }
 
@@ -34,11 +34,11 @@ public partial class OrderedDessert
 
     [ForeignKey("DessertId")]
     [InverseProperty("OrderedDesserts")]
-    public virtual Dessert Dessert { get; set; } = null!;
+    public virtual Dessert? Dessert { get; set; }
 
     [ForeignKey("OrderId")]
     [InverseProperty("OrderedDesserts")]
-    public virtual Order Order { get; set; } = null!;
+    public virtual Order? Order { get; set; }
 
     [ForeignKey("StatusCode")]
     [InverseProperty("OrderedDesserts")]

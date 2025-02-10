@@ -7,6 +7,7 @@ using AppServer.Models;
 using Microsoft.Identity.Client;
 using System.Threading.Tasks.Sources;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppServer.Controllers
 {
@@ -744,6 +745,27 @@ namespace AppServer.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpGet("getordereddesserts")]
+        public List<OrderedDessertDTO> GetOrderedDesserts()
+        {
+            try
+            {
+                List<DTO.OrderedDessertDTO> dtoOrderedDesserts = new List<DTO.OrderedDessertDTO>();
+                List<OrderedDessert> modelOrderedDesserts = context.OrderedDesserts
+                                                            .Include(o=>o.Dessert)
+                                                            .Include(o=>o.Baker).ToList();
+                foreach (OrderedDessert d in modelOrderedDesserts)
+                {
+                    dtoOrderedDesserts.Add(new DTO.OrderedDessertDTO(d));
+                }
+                return dtoOrderedDesserts;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 

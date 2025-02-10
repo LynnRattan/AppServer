@@ -90,11 +90,12 @@ CREATE TABLE Orders (
 
     --טבלת קינוחים שהוזמנו--
 CREATE TABLE OrderedDesserts (
-    OrderId INT --מפתח זר לטבלת הזמנות--
+    OrderedDessertId INT PRIMARY KEY Identity, --מפתח ראשי מספר הקינוח שהוזמן--
+    OrderId INT NULL --מפתח זר לטבלת הזמנות--
     FOREIGN KEY (OrderId) REFERENCES Orders(OrderId), --מספר הזמנה--
     DessertId INT --מפתח זר לטבלת קינוחים--
     FOREIGN KEY (DessertId) REFERENCES Desserts(DessertId), --מספר קינוח--
-    CONSTRAINT PK_Orders_Desserts PRIMARY KEY (OrderId,DessertId), --קישור מפתחות זרים--
+    --CONSTRAINT PK_Orders_Desserts PRIMARY KEY (OrderId,DessertId), --קישור מפתחות זרים--
     StatusCode INT --מפתח זר לטבלת סטטוסים--
     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קינוח שהוזמן--
     UserId INT --מפתח זר לטבלת משתמשים--
@@ -159,5 +160,6 @@ SELECT * FROM ConfectioneryTypes
 SELECT * FROM DessertTypes
 SELECT * FROM Statuses
 SELECT * FROM Desserts
+select * from OrderedDesserts
 
 
