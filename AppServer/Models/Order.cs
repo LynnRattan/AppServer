@@ -13,7 +13,7 @@ public partial class Order
 
     public int? StatusCode { get; set; }
 
-    public int? CustomerId { get; set; }
+    public int? UserId { get; set; }
 
     public int? BakerId { get; set; }
 
@@ -30,14 +30,14 @@ public partial class Order
     [InverseProperty("Orders")]
     public virtual Baker? Baker { get; set; }
 
-    [ForeignKey("CustomerId")]
-    [InverseProperty("Orders")]
-    public virtual User? Customer { get; set; }
-
     [InverseProperty("Order")]
     public virtual ICollection<OrderedDessert> OrderedDesserts { get; set; } = new List<OrderedDessert>();
 
     [ForeignKey("StatusCode")]
     [InverseProperty("Orders")]
     public virtual Status? StatusCodeNavigation { get; set; }
+
+    [ForeignKey("UserId")]
+    [InverseProperty("Orders")]
+    public virtual User? User { get; set; }
 }

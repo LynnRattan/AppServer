@@ -77,9 +77,9 @@ CREATE TABLE Desserts (
 CREATE TABLE Orders (
     OrderId INT PRIMARY KEY Identity, --מפתח ראשי--
     StatusCode INT --מפתח זר לטבלת סטטוסים--
-     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס הזמנה--
-     CustomerId INT --מפתח זר לטבלת משתמשים--
-    FOREIGN KEY (CustomerId) REFERENCES Users(UserId), --מספר משתמש--
+    FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס הזמנה--
+    UserId INT --מפתח זר לטבלת משתמשים--
+    FOREIGN KEY (UserId) REFERENCES Users(UserId), --מספר משתמש--
     BakerId INT --מפתח זר לטבלת קונדיטורים--
     FOREIGN KEY (BakerId) REFERENCES Bakers(BakerId), --מספר קונדיטור--
     OrderDate Date, --תאריך הזמנה--
@@ -97,9 +97,13 @@ CREATE TABLE OrderedDesserts (
     CONSTRAINT PK_Orders_Desserts PRIMARY KEY (OrderId,DessertId), --קישור מפתחות זרים--
     StatusCode INT --מפתח זר לטבלת סטטוסים--
     FOREIGN KEY (StatusCode) REFERENCES Statuses(StatusCode), --סטטוס קינוח שהוזמן--
-    UserId INT
+    UserId INT --מפתח זר לטבלת משתמשים--
+    FOREIGN KEY (UserId) REFERENCES Users(UserId), --מספר משתמש-- 
+    BakerId INT --מפתח זר לטבלת קונדיטורים--
+    FOREIGN KEY (BakerId) REFERENCES Bakers(BakerId), --מספר קונדיטור--
     Quantity INT NOT NULL, --כמות--
-    Price FLOAT NOT NULL --מחיר--
+    Price FLOAT NOT NULL, --מחיר--
+    OrderedDessertImage NVARCHAR(100) NOT NULL --תמונה של הקינוח שהוזמן--
     );
 
     insert into ConfectioneryTypes values(1, 'Bakery')

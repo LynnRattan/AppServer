@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppServer.Models;
 
-[Index("Mail", Name = "UQ__Users__2724B2D1C8E3E5D5", IsUnique = true)]
+[Index("Mail", Name = "UQ__Users__2724B2D16D3A3C03", IsUnique = true)]
 public partial class User
 {
     [Key]
@@ -32,7 +32,10 @@ public partial class User
     [InverseProperty("BakerNavigation")]
     public virtual Baker? Baker { get; set; }
 
-    [InverseProperty("Customer")]
+    [InverseProperty("User")]
+    public virtual ICollection<OrderedDessert> OrderedDesserts { get; set; } = new List<OrderedDessert>();
+
+    [InverseProperty("User")]
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     [ForeignKey("UserTypeId")]

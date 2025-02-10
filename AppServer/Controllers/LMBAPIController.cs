@@ -720,6 +720,31 @@ namespace AppServer.Controllers
         }
 
         #endregion
+
+        [HttpPost("addordereddessert")]
+        public IActionResult AddOrderedDessert([FromBody] DTO.OrderedDessertDTO orderedDessertDto)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+                //Create model dessert class
+                Models.OrderedDessert modelsOrderedDessert = orderedDessertDto.GetModels();
+                modelsOrderedDessert.OrderedDessertImage = "/dessertImages/defaultD.png";
+                context.OrderedDesserts.Add(modelsOrderedDessert);
+                context.SaveChanges();
+
+                //Dessert was added!
+                DTO.OrderedDessertDTO dtoOrderedDessert = new DTO.OrderedDessertDTO(modelsOrderedDessert);
+                //dtoDessert.DessertImagePath = GetDessertImageVirtualPath(dtoDessert.DessertId, "dessertImage");
+                return Ok(dtoOrderedDessert);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 
 

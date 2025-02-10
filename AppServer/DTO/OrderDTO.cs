@@ -3,7 +3,7 @@
     public class OrderDTO
     {
         public int Id { get; set; }
-        public int? CustomerId { get; set; }
+        public int? UserId { get; set; }
         public int? BakerId { get; set; }
 
         public DateOnly? OrderDate { get; set; }
@@ -19,7 +19,7 @@
         public OrderDTO(Models.Order modelsOrder)
         {
             this.Id = modelsOrder.OrderId;
-            this.CustomerId=modelsOrder.CustomerId;
+            this.UserId = modelsOrder.UserId;
             this.BakerId = modelsOrder.BakerId;
             this.OrderDate=modelsOrder.OrderDate;
             this.ArrivelDate = modelsOrder.ArrivalDate;
