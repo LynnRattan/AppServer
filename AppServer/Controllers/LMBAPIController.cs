@@ -8,6 +8,7 @@ using Microsoft.Identity.Client;
 using System.Threading.Tasks.Sources;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace AppServer.Controllers
 {
@@ -26,6 +27,7 @@ namespace AppServer.Controllers
             this.webHostEnvironment = env;
         }
 
+        #region check
         [HttpGet("check")]
         public IActionResult Check()
         {
@@ -39,8 +41,8 @@ namespace AppServer.Controllers
             }
 
         }
-
-
+        #endregion
+        #region
         [HttpPost("login")]
         public IActionResult Login([FromBody] DTO.LoginInfo loginDto)
         {
@@ -70,8 +72,8 @@ namespace AppServer.Controllers
             }
 
         }
-
-
+        #endregion
+        #region
         [HttpPost("signup")]
         public IActionResult Register([FromBody] DTO.UserBakerDTO userBakerDto)
         {
@@ -109,7 +111,7 @@ namespace AppServer.Controllers
             }
 
         }
-
+        #endregion
         //[HttpPost("bakersignup")]
         //public IActionResult RegisterBaker([FromBody] DTO.UserBakerDTO userBakerDto)
         //{
@@ -143,7 +145,7 @@ namespace AppServer.Controllers
         //    }
 
         //}
-
+        #region
         [HttpPost("UploadProfileImage")]
         public async Task<IActionResult> UploadProfileImageAsync(IFormFile file)
         {
@@ -208,10 +210,11 @@ namespace AppServer.Controllers
             dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.UserId,"profileImages");
             return Ok(dtoUser);
         }
-
+        #endregion
         //Helper functions
 
         //this function gets a file stream and check if it is an image
+        #region
         private static bool IsImage(Stream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);
@@ -238,7 +241,8 @@ namespace AppServer.Controllers
 
             return false;
         }
-
+        #endregion
+        #region
         [HttpPost("UploadDessertImage")]
         public async Task<IActionResult> UploadDessertImageAsync(IFormFile file, [FromQuery] int dessertId, int userId)
         {
@@ -318,13 +322,14 @@ namespace AppServer.Controllers
             context.SaveChanges();
             return Ok(dtoDessert);
         }
+        #endregion
 
-        
 
-       
+
 
         //this function check which profile image exist and return the virtual path of it.
         //if it does not exist it returns the default profile image virtual path
+        #region
         private string GetProfileImageVirtualPath(int Id,string folder)
         {
             string virtualPath = $"/{folder}/{Id}";
@@ -348,8 +353,10 @@ namespace AppServer.Controllers
 
             return virtualPath;
         }
+        #endregion
 
         //Same operation for dessert
+        #region
         private string GetDessertImageVirtualPath(int Id, string folder)
         {
             string virtualPath = $"/{folder}/{Id}";
@@ -373,7 +380,9 @@ namespace AppServer.Controllers
 
             return virtualPath;
         }
+        #endregion
 
+        #region adddessert
         [HttpPost("adddessert")]
         public IActionResult AddDessert([FromBody] DTO.DessertDTO dessertDto)
         {
@@ -398,7 +407,9 @@ namespace AppServer.Controllers
             }
 
         }
+        #endregion
 
+        #region getbakers
         [HttpGet("getbakers")]
         public List<BakerDTO> GetBakers()
         {
@@ -420,7 +431,9 @@ namespace AppServer.Controllers
                 return null;
             }
         }
+        #endregion
 
+        #region approvebaker
         [HttpPost("approvebaker")]
         public IActionResult ApproveBaker([FromBody]int bakerId)
         {
@@ -444,7 +457,9 @@ namespace AppServer.Controllers
                 return Unauthorized();
             }
         }
+        #endregion
 
+        #region declinebaker
         [HttpPost("declinebaker")]
         public IActionResult DeclineBaker([FromBody]int bakerId)
         {
@@ -467,7 +482,9 @@ namespace AppServer.Controllers
                 return Unauthorized();
             }
         }
+        #endregion
 
+        #region getdesserts
         [HttpGet("getdesserts")]
         public List<DessertDTO> GetDesserts()
         {
@@ -486,7 +503,9 @@ namespace AppServer.Controllers
                 return null;
             }
         }
+        #endregion
 
+        #region approvedessert
         [HttpPost("approvedessert")]
         public IActionResult ApproveDessert([FromBody] int dessertId)
         {
@@ -510,7 +529,9 @@ namespace AppServer.Controllers
                 return Unauthorized();
             }
         }
+        #endregion
 
+        #region declinedessert
         [HttpPost("declinedessert")]
         public IActionResult DeclineDessert([FromBody] int dessertId)
         {
@@ -534,8 +555,9 @@ namespace AppServer.Controllers
                 return Unauthorized();
             }
         }
+        #endregion
 
-
+        #region getconfectionerytypes
         [HttpGet("getconfectionerytypes")]
         public List<ConfectioneryTypeDTO> GetConfectioneryTypes()
         {
@@ -558,7 +580,9 @@ namespace AppServer.Controllers
                 return null;
             }
         }
+        #endregion
 
+        #region getdesserttypes
         [HttpGet("getdesserttypes")]
         public List<DessertTypeDTO> GetDessertTypes()
         {
@@ -581,7 +605,9 @@ namespace AppServer.Controllers
                 return null;
             }
         }
+        #endregion
 
+        #region getbakerdesserts
         [HttpPost("getbakerdesserts")]
         public List<DessertDTO> GetBakerDesserts([FromBody] int bakerId)
         {
@@ -611,7 +637,9 @@ namespace AppServer.Controllers
                 return null;
             }
         }
-        
+        #endregion
+
+        #region getbaker
         [HttpPost("getbaker")]
         public IActionResult GetBaker([FromBody] int bakerId)
         {
@@ -632,7 +660,9 @@ namespace AppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region getstatusestypes
         [HttpGet("getstatusestypes")]
         public List<StatusDTO> GetStatusesTypes()
         {
@@ -655,7 +685,9 @@ namespace AppServer.Controllers
                 return null;
             }
         }
+        #endregion
 
+        #region updateHighestPrice
         [HttpPost("updateHighestPrice")]
         public IActionResult UpdateHighestPrice([FromBody] BakerDTO bakerDto)
         {
@@ -672,7 +704,9 @@ namespace AppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region getusers
         [HttpGet("getusers")]
         public List<UserDTO> GetUsers()
         {
@@ -699,9 +733,10 @@ namespace AppServer.Controllers
                 return null;
             }
         }
+        #endregion
 
 
-        #region updaters
+        #region updateDessertImage
 
         [HttpPost("updateDessertImage")]
         public IActionResult UpdateDessertImage([FromBody] DessertDTO dessertDTO)
@@ -721,7 +756,7 @@ namespace AppServer.Controllers
         }
 
         #endregion
-
+        #region addordereddessert
         [HttpPost("addordereddessert")]
         public IActionResult AddOrderedDessert([FromBody] DTO.OrderedDessertDTO orderedDessertDto)
         {
@@ -746,7 +781,9 @@ namespace AppServer.Controllers
             }
 
         }
+        #endregion
 
+        #region getordereddesserts
         [HttpGet("getordereddesserts")]
         public List<OrderedDessertDTO> GetOrderedDesserts()
         {
@@ -760,13 +797,53 @@ namespace AppServer.Controllers
                 {
                     dtoOrderedDesserts.Add(new DTO.OrderedDessertDTO(d));
                 }
-                return dtoOrderedDesserts;
+                return dtoOrderedDesserts;                
             }
             catch (Exception ex)
             {
                 return null;
             }
         }
+        #endregion
+
+        #region DeleteOrderedDessert
+        [HttpPost("DeleteOrderedDessert")]
+        public IActionResult DeleteOrderedDessert([FromBody]int id)
+        {
+            try
+            {
+                OrderedDessert d = context.OrderedDesserts.Where(o => o.OrderedDessertId == id).FirstOrDefault();
+                context.OrderedDesserts.Remove(d);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region updateOrderedDessertQuantity
+        [HttpPost("updateQuantity")]
+        public IActionResult UpdateQuantity([FromBody] OrderedDessertDTO orderedDessertDto, [FromQuery] int quantity)
+        {
+
+            try
+            {
+                OrderedDessert? orderedDessert = context.OrderedDesserts.Where<OrderedDessert>(d => d.OrderedDessertId == orderedDessertDto.OrderedDessertId).FirstOrDefault();
+                double onePrice = orderedDessert.Price/ orderedDessert.Quantity;
+                orderedDessert.Quantity = quantity;
+                orderedDessert.Price = onePrice*quantity;
+                context.SaveChanges();
+                return Ok(orderedDessert);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 
 
