@@ -844,6 +844,60 @@ namespace AppServer.Controllers
             }
         }
         #endregion
+
+        #region Put Desser In Order
+       
+        [HttpPost("PutInOrder")]
+        public IActionResult PutInOrder([FromBody] int oDessertId, [FromQuery] int orderId)
+        {
+            if (context.OrderedDesserts.Where<OrderedDessert>(b => b.OrderedDessertId == oDessertId).FirstOrDefault() != null)
+            {
+                try
+                {
+
+                    OrderedDessert oDessert = context.GetOrderedDessert(oDessertId);
+                    oDessert.OrderId=orderId;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        #endregion
+
+        #region addorder
+        [HttpPost("addorder")]
+        public IActionResult AddOrder([FromBody] DTO.OrderDTO orderDto)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+                //Create model order class
+                Models.Order modelsOrder = orderDto.GetModels();
+                
+                context.Orders.Add(modelsOrder);
+                context.SaveChanges();
+
+                //Order was added!
+                DTO.OrderDTO dtoOrder = new DTO.OrderDTO(modelsOrder);
+                return Ok(dtoOrder);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        #endregion
     }
 
 

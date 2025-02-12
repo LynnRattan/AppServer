@@ -130,9 +130,11 @@ CREATE TABLE OrderedDesserts (
     
       insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin')
     insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('check','check@gmail.com','check1',2,'check')
+    insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('check2','check2@gmail.com','check2',2,'check2')
           insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('test','test@gmail.com','test1',1,'test')
 
-    insert into Bakers (BakerId,ConfectioneryName,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(2,'Sweet',10,1,1,0)
+    insert into Bakers (BakerId,ConfectioneryName,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(2,'Sweet',10,1,2,0)
+    insert into Bakers (BakerId,ConfectioneryName,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(3,'Sweet2',10,2,2,0)
 
     -- Create a login for the admin user
 CREATE LOGIN [AdminLogin] WITH PASSWORD = '12345';
@@ -161,5 +163,6 @@ SELECT * FROM DessertTypes
 SELECT * FROM Statuses
 SELECT * FROM Desserts
 select * from OrderedDesserts
+select * from Orders
 
 

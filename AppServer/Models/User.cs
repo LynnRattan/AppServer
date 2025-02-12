@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AppServer.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppServer.Models;
@@ -41,4 +42,9 @@ public partial class User
     [ForeignKey("UserTypeId")]
     [InverseProperty("Users")]
     public virtual UserType UserType { get; set; } = null!;
+
+    public static implicit operator User(UserDTO v)
+    {
+        throw new NotImplementedException();
+    }
 }

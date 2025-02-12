@@ -35,5 +35,10 @@ namespace AppServer.Models
         {
             return this.Desserts.Where(b => b.DessertId == DessertId).FirstOrDefault();
         }
+        
+        public OrderedDessert? GetOrderedDessert(int DessertId)
+        {
+            return this.OrderedDesserts.Where(b => b.OrderedDessertId == DessertId).FirstOrDefault();
+        }
     }
 }
