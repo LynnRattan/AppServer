@@ -807,15 +807,22 @@ namespace AppServer.Controllers
         #endregion
 
         #region DeleteOrderedDessert
-        [HttpPost("DeleteOrderedDessert")]
-        public IActionResult DeleteOrderedDessert([FromBody]int id)
+        [HttpGet("DeleteOrderedDessert")]
+        public IActionResult DeleteOrderedDessert(int id)
         {
             try
             {
                 OrderedDessert d = context.OrderedDesserts.Where(o => o.OrderedDessertId == id).FirstOrDefault();
-                context.OrderedDesserts.Remove(d);
-                context.SaveChanges();
-                return Ok();
+                if (d != null)
+                {
+                    context.OrderedDesserts.Remove(d);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Ordered desert was not found in database");
+                }
             }
             catch(Exception ex)
             {
@@ -896,6 +903,32 @@ namespace AppServer.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+        #endregion
+
+        #region UpdateProfits
+        [HttpPost("UpdateProfits")]
+        public IActionResult UpdateProfits([FromBody] DTO.BakerDTO bakerDto, [FromQuery]double price)
+        {
+            if (context.Bakers.Where<Baker>(b => b.BakerId == bakerDto.BakerId).FirstOrDefault() != null)
+            {
+                try
+                {
+
+                    Baker baker = context.GetBaker(bakerDto.BakerId);
+                    baker.Profits += price;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
         #endregion
     }
