@@ -931,6 +931,131 @@ namespace AppServer.Controllers
             }
         }
         #endregion
+
+        #region GetOrders
+        [HttpGet("getorders")]
+        public List<OrderDTO> GetOrders()
+        {
+            try
+            {
+                List<Order> orders = context.GetOrders();
+                List<OrderDTO> newOrders = new();
+                foreach (Order o in orders)
+                {
+                    newOrders.Add(new OrderDTO(o));
+                }
+                return newOrders;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region approveordereddessert
+        [HttpPost("ApproveOrderedDessert")]
+        public IActionResult ApproveOrderedDessert([FromBody] int id)
+        {
+            if (context.OrderedDesserts.Where<OrderedDessert>(b => b.OrderedDessertId == id).FirstOrDefault() != null && context.OrderedDesserts.Where<OrderedDessert>(b => b.OrderedDessertId == id).FirstOrDefault().StatusCode == 1)
+            {
+                try
+                {
+
+                    OrderedDessert d = context.GetOrderedDessert(id);
+                    d.StatusCode = 2;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+        #endregion
+
+        #region declineordereddessert
+        [HttpPost("DeclineOrderedDessert")]
+        public IActionResult DeclineOrderedDessert([FromBody] int id)
+        {
+            if (context.OrderedDesserts.Where<OrderedDessert>(b => b.OrderedDessertId == id).FirstOrDefault() != null && context.OrderedDesserts.Where<OrderedDessert>(b => b.OrderedDessertId == id).FirstOrDefault().StatusCode == 1)
+            {
+                try
+                {
+
+                    OrderedDessert d = context.GetOrderedDessert(id);
+                    d.StatusCode = 3;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+        #endregion
+
+        #region approveorder
+        [HttpPost("ApproveOrder")]
+        public IActionResult ApproveOrder([FromBody] int id)
+        {
+            if (context.Orders.Where<Order>(b => b.OrderId == id).FirstOrDefault() != null && context.Orders.Where<Order>(b => b.OrderId == id).FirstOrDefault().StatusCode == 1)
+            {
+                try
+                {
+
+                    Order o = context.GetOrder(id);
+                    o.StatusCode = 2;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+        #endregion
+
+        #region declineordereddessert
+        [HttpPost("DeclineOrder")]
+        public IActionResult DeclineOrder([FromBody] int id)
+        {
+            if (context.Orders.Where<Order>(b => b.OrderId == id).FirstOrDefault() != null && context.Orders.Where<Order>(b => b.OrderId == id).FirstOrDefault().StatusCode == 1)
+            {
+                try
+                {
+
+                    Order o = context.GetOrder(id);
+                    o.StatusCode = 3;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+        #endregion
     }
 
 

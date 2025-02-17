@@ -30,6 +30,10 @@ namespace AppServer.Models
         {
             return this.Desserts.ToList();
         }
+        public List<Order> GetOrders()
+        {
+            return this.Orders.ToList();
+        }
 
         public Dessert? GetDessert(int DessertId)
         {
@@ -40,5 +44,11 @@ namespace AppServer.Models
         {
             return this.OrderedDesserts.Where(b => b.OrderedDessertId == DessertId).FirstOrDefault();
         }
+
+        public Order? GetOrder(int OrderId)
+        {
+            return this.Orders.Where(b => b.OrderId == OrderId).FirstOrDefault();
+        }
+
     }
 }
