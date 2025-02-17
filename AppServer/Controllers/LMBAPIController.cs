@@ -890,7 +890,6 @@ namespace AppServer.Controllers
 
                 //Create model order class
                 Models.Order modelsOrder = orderDto.GetModels();
-                
                 context.Orders.Add(modelsOrder);
                 context.SaveChanges();
 
@@ -1007,7 +1006,7 @@ namespace AppServer.Controllers
 
         #region approveorder
         [HttpPost("ApproveOrder")]
-        public IActionResult ApproveOrder([FromBody] int id)
+        public IActionResult ApproveOrder([FromBody] int id, [FromQuery] DateOnly arrivalDate)
         {
             if (context.Orders.Where<Order>(b => b.OrderId == id).FirstOrDefault() != null && context.Orders.Where<Order>(b => b.OrderId == id).FirstOrDefault().StatusCode == 1)
             {
@@ -1016,6 +1015,7 @@ namespace AppServer.Controllers
 
                     Order o = context.GetOrder(id);
                     o.StatusCode = 2;
+                    o.ArrivalDate = arrivalDate;
                     context.SaveChanges();
                     return Ok();
                 }
