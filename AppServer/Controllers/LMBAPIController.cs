@@ -43,7 +43,7 @@ namespace AppServer.Controllers
 
         }
         #endregion
-        #region
+        #region login
         [HttpPost("login")]
         public IActionResult Login([FromBody] DTO.LoginInfo loginDto)
         {
@@ -74,7 +74,7 @@ namespace AppServer.Controllers
 
         }
         #endregion
-        #region
+        #region signup
         [HttpPost("signup")]
         public IActionResult Register([FromBody] DTO.UserBakerDTO userBakerDto)
         {

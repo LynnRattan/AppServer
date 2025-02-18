@@ -5,11 +5,11 @@
         public int BakerId { get; set; }
 
         public string ConfectioneryName { get; set; }
-        public double HighestPrice { get; set; }
+        public double? HighestPrice { get; set; }
 
-        public int ConfectioneryTypeId { get; set; }
+        public int? ConfectioneryTypeId { get; set; }
 
-        public int StatusCode { get; set; }
+        public int? StatusCode { get; set; }
 
         public double? Profits { get; set; }
         public UserDTO? UserNavigation { get; set; }

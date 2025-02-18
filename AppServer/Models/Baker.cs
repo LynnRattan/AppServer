@@ -15,11 +15,11 @@ public partial class Baker
     [StringLength(100)]
     public string ConfectioneryName { get; set; } = null!;
 
-    public double HighestPrice { get; set; }
+    public double? HighestPrice { get; set; }
 
-    public int ConfectioneryTypeId { get; set; }
+    public int? ConfectioneryTypeId { get; set; }
 
-    public int StatusCode { get; set; }
+    public int? StatusCode { get; set; }
 
     public double? Profits { get; set; }
 

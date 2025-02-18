@@ -9,10 +9,10 @@
         public string ProfileName { get; set; }
         public int UserTypeId { get; set; }
         public string ProfileImagePath { get; set; } = "";
-        public string ConfectioneryName { get; set; }
-        public double HighestPrice { get; set; }
-        public int ConfectioneryTypeId {  get; set; }
-        public int StatusCode { get; set; }
+        public string? ConfectioneryName { get; set; }
+        public double? HighestPrice { get; set; }
+        public int? ConfectioneryTypeId {  get; set; }
+        public int? StatusCode { get; set; }
         public double? Profits { get; set; }
 
         public UserBakerDTO() { }
@@ -45,16 +45,17 @@
         }
         public DTO.BakerDTO GetBakerModels()
         {
-            DTO.BakerDTO baker = new DTO.BakerDTO()
-            {
-                BakerId = this.UserId,
-                ConfectioneryName = this.ConfectioneryName,
-                HighestPrice = this.HighestPrice,
-                ConfectioneryTypeId = this.ConfectioneryTypeId,
-                StatusCode = this.StatusCode,
-                Profits = this.Profits
-            };
-            return baker;
+                DTO.BakerDTO baker = new DTO.BakerDTO()
+                {
+                    BakerId = this.UserId,
+                    ConfectioneryName = this.ConfectioneryName,
+                    HighestPrice = this.HighestPrice,
+                    ConfectioneryTypeId = this.ConfectioneryTypeId,
+                    StatusCode = this.StatusCode,
+                    Profits = this.Profits
+                };
+                return baker;
+            
         }
     }
 }
