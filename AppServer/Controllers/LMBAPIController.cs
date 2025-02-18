@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AppServer.Models;
 using System.Runtime.InteropServices.Marshalling;
@@ -907,7 +908,7 @@ namespace AppServer.Controllers
 
         #region UpdateProfits
         [HttpPost("UpdateProfits")]
-        public IActionResult UpdateProfits([FromBody] DTO.BakerDTO bakerDto, [FromQuery]double price)
+        public IActionResult UpdateProfits([FromBody] DTO.BakerDTO bakerDto)
         {
             if (context.Bakers.Where<Baker>(b => b.BakerId == bakerDto.BakerId).FirstOrDefault() != null)
             {
@@ -915,7 +916,7 @@ namespace AppServer.Controllers
                 {
 
                     Baker baker = context.GetBaker(bakerDto.BakerId);
-                    baker.Profits += price;
+                    baker.Profits =bakerDto.Profits;
                     context.SaveChanges();
                     return Ok();
                 }
@@ -937,7 +938,7 @@ namespace AppServer.Controllers
         {
             try
             {
-                List<Order> orders = context.GetOrders();
+                List<Order> orders = context.Orders.Include(o => o.User).Include(o => o.Baker).ToList();
                 List<OrderDTO> newOrders = new();
                 foreach (Order o in orders)
                 {
@@ -1053,6 +1054,27 @@ namespace AppServer.Controllers
             else
             {
                 return Unauthorized();
+            }
+        }
+        #endregion
+
+        #region UpdateOrderTotalPrice
+        [HttpPost("UpdateTotalPrice")]
+        public IActionResult UpdateTotalPrice([FromBody] OrderDTO orderDto, [FromQuery] double newPrice)
+        {
+
+            try
+            {
+                Order? order = context.Orders.Where<Order>(d => d.OrderId == orderDto.Id).FirstOrDefault();
+               
+                
+                order.TotalPrice = newPrice;
+                context.SaveChanges();
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
         #endregion
