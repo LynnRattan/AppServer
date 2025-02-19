@@ -11,6 +11,7 @@ using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using AppServer.Services;
+using Microsoft.Data.SqlClient;
 
 namespace AppServer.Controllers
 {
@@ -102,6 +103,8 @@ namespace AppServer.Controllers
                     context.SaveChanges();
                 }
 
+                //SignUp suceed! now mark login in session memory!
+                HttpContext.Session.SetString("loggedInUser", modelsUser.Mail);
                 //User was added!
                 DTO.UserDTO dtoUser = new DTO.UserDTO(modelsUser);
                 dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.UserId,"profileImages");
@@ -397,18 +400,7 @@ namespace AppServer.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                //Get model user class from DB with matching email. 
-                Models.User? user = context.GetUser(userMail);
-                //Clear the tracking of all objects to avoid double tracking
-                context.ChangeTracker.Clear();
-
-                //Check if the user that is logged in is the same user of the task
-                //this situation is ok only if the user is a manager
-                if (user == null || (user.UserTypeId != 2)||user.UserId!=dessertDto.BakerId)
-                {
-                    return Unauthorized("Different user trying to add a dessert to another baker.");
-                }
-
+               
                 //Create model dessert class
                 Models.Dessert modelsDessert = dessertDto.GetModels();
                 modelsDessert.DessertImage = "/dessertImages/defaultD.png";
@@ -626,7 +618,7 @@ namespace AppServer.Controllers
 
                     //Check if the user that is logged in is the same user of the task
                     //this situation is ok only if the user is a manager
-                    if (user == null || user.UserTypeId ==1)
+                    if (user == null || (user.UserTypeId !=2 && user.UserTypeId != 3))
                     {
                         return Unauthorized("Non Admin User is trying to decline a confectionery");
                     }
@@ -792,18 +784,6 @@ namespace AppServer.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                //Get model user class from DB with matching email. 
-                Models.User? user = context.GetUser(userMail);
-                //Clear the tracking of all objects to avoid double tracking
-                context.ChangeTracker.Clear();
-
-                //Check if the user that is logged in is the same user of the task
-                //this situation is ok only if the user is a manager
-                if (user == null || (user.UserTypeId != 2)||user.UserId!=bakerDto.BakerId)
-                {
-                    return Unauthorized("Different user trying to change other baker's highet price.");
-                }
-
                 Baker? baker = context.Bakers.Where<Baker>(b => b.BakerId == bakerDto.BakerId).FirstOrDefault();
                     baker.HighestPrice = bakerDto.HighestPrice;
                 context.SaveChanges();
@@ -956,19 +936,6 @@ namespace AppServer.Controllers
 
                 OrderedDessert d = context.OrderedDesserts.Where(o => o.OrderedDessertId == id).FirstOrDefault();
 
-                //Get model user class from DB with matching email. 
-                Models.User? user = context.GetUser(userMail);
-                //Clear the tracking of all objects to avoid double tracking
-                context.ChangeTracker.Clear();
-
-                //Check if the user that is logged in is the same user of the task
-                //this situation is ok only if the user is a manager
-                if (user == null || (user.UserTypeId != 1) || user.UserId != d.UserId)
-                {
-                    return Unauthorized("Different user trying to delete dessert from another user's cart.");
-                }
-
-               
                 if (d != null)
                 {
                     context.OrderedDesserts.Remove(d);
@@ -999,18 +966,6 @@ namespace AppServer.Controllers
                 if (string.IsNullOrEmpty(userMail))
                 {
                     return Unauthorized("User is not logged in");
-                }
-
-                //Get model user class from DB with matching email. 
-                Models.User? user = context.GetUser(userMail);
-                //Clear the tracking of all objects to avoid double tracking
-                context.ChangeTracker.Clear();
-
-                //Check if the user that is logged in is the same user of the task
-                //this situation is ok only if the user is a manager
-                if (user == null || (user.UserTypeId != 1) || user.UserId != orderedDessertDto.UserId)
-                {
-                    return Unauthorized("Different user trying to change dessert quantity in another user's cart.");
                 }
 
                 OrderedDessert? orderedDessert = context.OrderedDesserts.Where<OrderedDessert>(d => d.OrderedDessertId == orderedDessertDto.OrderedDessertId).FirstOrDefault();
@@ -1087,7 +1042,7 @@ namespace AppServer.Controllers
                     From = "Lynn",
                     To = u.Mail,
                     Subject = "New Order",
-                    Body = $"New order had been made from your confectionery! \n Buyer Mail:{orderDto.TheUser.ProfileName} \n Order Date:{orderDto.OrderDate} \n Adress:{orderDto.Adress} \n Total:{orderDto.TotalPrice} "
+                    Body = $"New order had been made from your confectionery! \n Buyer Mail:{orderDto.TheUser.Mail} \n Order Date:{orderDto.OrderDate} \n Adress:{orderDto.Adress} \n Total:{orderDto.TotalPrice} "
                 };
                 SendMailService s = new SendMailService();
                 s.Send(mailData);
@@ -1171,19 +1126,6 @@ namespace AppServer.Controllers
 
                     OrderedDessert d = context.GetOrderedDessert(id);
 
-                    //Get model user class from DB with matching email. 
-                    Models.User? user = context.GetUser(userMail);
-                    //Clear the tracking of all objects to avoid double tracking
-                    context.ChangeTracker.Clear();
-
-                    //Check if the user that is logged in is the same user of the task
-                    //this situation is ok only if the user is a manager
-                    if (user == null || (user.UserTypeId != 2) || user.UserId != d.BakerId)
-                    {
-                        return Unauthorized("Different user is trying to approve an ordered dessert.");
-                    }
-
-                    
                     d.StatusCode = 2;
                     context.SaveChanges();
                     return Ok();
@@ -1217,17 +1159,6 @@ namespace AppServer.Controllers
 
                         OrderedDessert d = context.GetOrderedDessert(id);
 
-                        //Get model user class from DB with matching email. 
-                        Models.User? user = context.GetUser(userMail);
-                        //Clear the tracking of all objects to avoid double tracking
-                        context.ChangeTracker.Clear();
-
-                        //Check if the user that is logged in is the same user of the task
-                        //this situation is ok only if the user is a manager
-                        if (user == null || (user.UserTypeId != 2) || user.UserId != d.BakerId)
-                        {
-                            return Unauthorized("Different user is trying to decline an ordered dessert.");
-                        }
                     d.StatusCode = 3;
                     context.SaveChanges();
                     return Ok();
@@ -1263,6 +1194,18 @@ namespace AppServer.Controllers
                     o.StatusCode = 2;
                     o.ArrivalDate = arrivalDate;
                     context.SaveChanges();
+                    User b = context.GetUser(o.BakerId);
+                    User u = context.GetUser(o.UserId);
+                    Baker baker = context.GetBaker(o.BakerId);
+                    MailData mailData = new MailData()
+                    {
+                        From = baker.ConfectioneryName,
+                        To = u.Mail,
+                        Subject = "Approved Order",
+                        Body = $"Your order from {baker.ConfectioneryName} was approved! \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Arrival Date:{o.ArrivalDate} \n Adress:{o.Adress} \n Total:{o.TotalPrice} "
+                    };
+                    SendMailService s = new SendMailService();
+                    s.Send(mailData);
                     return Ok();
                 }
                 catch (Exception ex)
@@ -1332,6 +1275,109 @@ namespace AppServer.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+        #endregion
+
+        #region Backup / Restore
+        [HttpGet("Backup")]
+        public async Task<IActionResult> Backup()
+        {
+            string path = $"{this.webHostEnvironment.WebRootPath}\\..\\DbScripts\\backup.bak";
+
+            bool success = await BackupDatabaseAsync(path);
+            if (success)
+            {
+                return Ok("Backup was successful");
+            }
+            else
+            {
+                return BadRequest("Backup failed");
+            }
+        }
+
+        [HttpGet("Restore")]
+        public async Task<IActionResult> Restore()
+        {
+            string path = $"{this.webHostEnvironment.WebRootPath}\\..\\DbScripts\\backup.bak";
+
+            bool success = await RestoreDatabaseAsync(path);
+            if (success)
+            {
+                return Ok("Restore was successful");
+            }
+            else
+            {
+                return BadRequest("Restore failed");
+            }
+        }
+        //this function backup the database to a specified path
+        private async Task<bool> BackupDatabaseAsync(string path)
+        {
+            try
+            {
+
+                //Get the connection string
+                string? connectionString = context.Database.GetConnectionString();
+                //Get the database name
+                string databaseName = context.Database.GetDbConnection().Database;
+                //Build the backup command
+                string command = $"BACKUP DATABASE {databaseName} TO DISK = '{path}'";
+                //Create a connection to the database
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    //Open the connection
+                    await connection.OpenAsync();
+                    //Create a command
+                    using (SqlCommand sqlCommand = new SqlCommand(command, connection))
+                    {
+                        //Execute the command
+                        await sqlCommand.ExecuteNonQueryAsync();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
+        //THis function restore the database from a backup in a certain path
+        private async Task<bool> RestoreDatabaseAsync(string path)
+        {
+            try
+            {
+                //Get the connection string
+                string? connectionString = context.Database.GetConnectionString();
+                //Get the database name
+                string databaseName = context.Database.GetDbConnection().Database;
+                //Build the restore command
+                string command = $@"
+                USE master;
+                ALTER DATABASE {databaseName} SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+                RESTORE DATABASE {databaseName} FROM DISK = '{path}' WITH REPLACE;
+                ALTER DATABASE {databaseName} SET MULTI_USER;";
+
+                //Create a connection to the database
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    //Open the connection
+                    await connection.OpenAsync();
+                    //Create a command
+                    using (SqlCommand sqlCommand = new SqlCommand(command, connection))
+                    {
+                        //Execute the command
+                        await sqlCommand.ExecuteNonQueryAsync();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
         #endregion
     }

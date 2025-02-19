@@ -17,7 +17,7 @@ namespace AppServer.Models
             return this.Users.Where(u => u.UserId == id).FirstOrDefault();
         }
 
-        public Baker? GetBaker(int BakerId)
+        public Baker? GetBaker(int? BakerId)
         {
             return this.Bakers.Where(b => b.BakerId == BakerId).Include(b=>b.BakerNavigation).FirstOrDefault();
         }
