@@ -10,6 +10,7 @@ using System.Threading.Tasks.Sources;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using AppServer.Services;
 
 namespace AppServer.Controllers
 {
@@ -146,7 +147,7 @@ namespace AppServer.Controllers
         //    }
 
         //}
-        #region
+        #region UploadProfileImage
         [HttpPost("UploadProfileImage")]
         public async Task<IActionResult> UploadProfileImageAsync(IFormFile file)
         {
@@ -215,7 +216,7 @@ namespace AppServer.Controllers
         //Helper functions
 
         //this function gets a file stream and check if it is an image
-        #region
+        #region IsImage
         private static bool IsImage(Stream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);
@@ -243,7 +244,7 @@ namespace AppServer.Controllers
             return false;
         }
         #endregion
-        #region
+        #region UploadDessertImage
         [HttpPost("UploadDessertImage")]
         public async Task<IActionResult> UploadDessertImageAsync(IFormFile file, [FromQuery] int dessertId, int userId)
         {
@@ -330,7 +331,7 @@ namespace AppServer.Controllers
 
         //this function check which profile image exist and return the virtual path of it.
         //if it does not exist it returns the default profile image virtual path
-        #region
+        #region GetProfileImageVirtualPath
         private string GetProfileImageVirtualPath(int Id,string folder)
         {
             string virtualPath = $"/{folder}/{Id}";
@@ -357,7 +358,7 @@ namespace AppServer.Controllers
         #endregion
 
         //Same operation for dessert
-        #region
+        #region GetDessertImageVirtualPath
         private string GetDessertImageVirtualPath(int Id, string folder)
         {
             string virtualPath = $"/{folder}/{Id}";
@@ -389,7 +390,24 @@ namespace AppServer.Controllers
         {
             try
             {
-                HttpContext.Session.Clear(); //Logout any previous login attempt
+                //Check if who is logged in
+                string? userMail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userMail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                //Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userMail);
+                //Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+
+                //Check if the user that is logged in is the same user of the task
+                //this situation is ok only if the user is a manager
+                if (user == null || (user.UserTypeId != 2)||user.UserId!=dessertDto.BakerId)
+                {
+                    return Unauthorized("Different user trying to add a dessert to another baker.");
+                }
 
                 //Create model dessert class
                 Models.Dessert modelsDessert = dessertDto.GetModels();
@@ -442,8 +460,25 @@ namespace AppServer.Controllers
             {
                 try
             {
+                    //Check if who is logged in
+                    string? userMail = HttpContext.Session.GetString("loggedInUser");
+                    if (string.IsNullOrEmpty(userMail))
+                    {
+                        return Unauthorized("User is not logged in");
+                    }
 
-                Baker baker = context.GetBaker(bakerId);
+                    //Get model user class from DB with matching email. 
+                    Models.User? user = context.GetUser(userMail);
+                    //Clear the tracking of all objects to avoid double tracking
+                    context.ChangeTracker.Clear();
+
+                    //Check if the user that is logged in is the same user of the task
+                    //this situation is ok only if the user is a manager
+                    if (user == null || (user.UserTypeId!=3))
+                    {
+                        return Unauthorized("Non Admin User is trying to approve a confectionery");
+                    }
+                    Baker baker = context.GetBaker(bakerId);
                 baker.StatusCode = 2;
                 context.SaveChanges();
                 return Ok();
@@ -468,6 +503,25 @@ namespace AppServer.Controllers
             {
                 try
                 {
+                    //Check if who is logged in
+                    string? userMail = HttpContext.Session.GetString("loggedInUser");
+                    if (string.IsNullOrEmpty(userMail))
+                    {
+                        return Unauthorized("User is not logged in");
+                    }
+
+                    //Get model user class from DB with matching email. 
+                    Models.User? user = context.GetUser(userMail);
+                    //Clear the tracking of all objects to avoid double tracking
+                    context.ChangeTracker.Clear();
+
+                    //Check if the user that is logged in is the same user of the task
+                    //this situation is ok only if the user is a manager
+                    if (user == null || (user.UserTypeId != 3))
+                    {
+                        return Unauthorized("Non Admin User is trying to decline a confectionery");
+                    }
+
                     Baker baker = context.GetBaker(bakerId);
                     baker.StatusCode = 3;
                     context.SaveChanges();
@@ -514,6 +568,24 @@ namespace AppServer.Controllers
             {
                 try
                 {
+                    //Check if who is logged in
+                    string? userMail = HttpContext.Session.GetString("loggedInUser");
+                    if (string.IsNullOrEmpty(userMail))
+                    {
+                        return Unauthorized("User is not logged in");
+                    }
+
+                    //Get model user class from DB with matching email. 
+                    Models.User? user = context.GetUser(userMail);
+                    //Clear the tracking of all objects to avoid double tracking
+                    context.ChangeTracker.Clear();
+
+                    //Check if the user that is logged in is the same user of the task
+                    //this situation is ok only if the user is a manager
+                    if (user == null || (user.UserTypeId != 3))
+                    {
+                        return Unauthorized("Non Admin User is trying to approve a dessert");
+                    }
 
                     Dessert dessert = context.GetDessert(dessertId);
                     dessert.StatusCode = 2;
@@ -540,6 +612,24 @@ namespace AppServer.Controllers
             {
                 try
                 {
+                    //Check if who is logged in
+                    string? userMail = HttpContext.Session.GetString("loggedInUser");
+                    if (string.IsNullOrEmpty(userMail))
+                    {
+                        return Unauthorized("User is not logged in");
+                    }
+
+                    //Get model user class from DB with matching email. 
+                    Models.User? user = context.GetUser(userMail);
+                    //Clear the tracking of all objects to avoid double tracking
+                    context.ChangeTracker.Clear();
+
+                    //Check if the user that is logged in is the same user of the task
+                    //this situation is ok only if the user is a manager
+                    if (user == null || user.UserTypeId ==1)
+                    {
+                        return Unauthorized("Non Admin User is trying to decline a confectionery");
+                    }
 
                     Dessert dessert = context.GetDessert(dessertId);
                     dessert.StatusCode = 3;
@@ -695,6 +785,25 @@ namespace AppServer.Controllers
 
             try
             {
+                //Check if who is logged in
+                string? userMail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userMail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                //Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userMail);
+                //Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+
+                //Check if the user that is logged in is the same user of the task
+                //this situation is ok only if the user is a manager
+                if (user == null || (user.UserTypeId != 2)||user.UserId!=bakerDto.BakerId)
+                {
+                    return Unauthorized("Different user trying to change other baker's highet price.");
+                }
+
                 Baker? baker = context.Bakers.Where<Baker>(b => b.BakerId == bakerDto.BakerId).FirstOrDefault();
                     baker.HighestPrice = bakerDto.HighestPrice;
                 context.SaveChanges();
@@ -745,6 +854,25 @@ namespace AppServer.Controllers
 
             try
             {
+                //Check if who is logged in
+                string? userMail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userMail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                //Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userMail);
+                //Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+
+                //Check if the user that is logged in is the same user of the task
+                //this situation is ok only if the user is a manager
+                if (user == null || (user.UserTypeId != 2) || user.UserId != dessertDTO.BakerId)
+                {
+                    return Unauthorized("Different user trying to update another baker's dessert image.");
+                }
+
                 Dessert? dessert = context.Desserts.Where(d => d.DessertId == dessertDTO.DessertId).FirstOrDefault();
                 dessert.DessertImage = dessertDTO.DessertImage;
                 context.SaveChanges();
@@ -757,13 +885,19 @@ namespace AppServer.Controllers
         }
 
         #endregion
+
         #region addordereddessert
         [HttpPost("addordereddessert")]
         public IActionResult AddOrderedDessert([FromBody] DTO.OrderedDessertDTO orderedDessertDto)
         {
             try
             {
-                HttpContext.Session.Clear(); //Logout any previous login attempt
+                //Check if who is logged in
+                string? userMail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userMail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
 
                 //Create model dessert class
                 Models.OrderedDessert modelsOrderedDessert = orderedDessertDto.GetModels();
@@ -813,7 +947,28 @@ namespace AppServer.Controllers
         {
             try
             {
+                //Check if who is logged in
+                string? userMail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userMail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
                 OrderedDessert d = context.OrderedDesserts.Where(o => o.OrderedDessertId == id).FirstOrDefault();
+
+                //Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userMail);
+                //Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+
+                //Check if the user that is logged in is the same user of the task
+                //this situation is ok only if the user is a manager
+                if (user == null || (user.UserTypeId != 1) || user.UserId != d.UserId)
+                {
+                    return Unauthorized("Different user trying to delete dessert from another user's cart.");
+                }
+
+               
                 if (d != null)
                 {
                     context.OrderedDesserts.Remove(d);
@@ -839,6 +994,25 @@ namespace AppServer.Controllers
 
             try
             {
+                //Check if who is logged in
+                string? userMail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userMail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                //Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userMail);
+                //Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+
+                //Check if the user that is logged in is the same user of the task
+                //this situation is ok only if the user is a manager
+                if (user == null || (user.UserTypeId != 1) || user.UserId != orderedDessertDto.UserId)
+                {
+                    return Unauthorized("Different user trying to change dessert quantity in another user's cart.");
+                }
+
                 OrderedDessert? orderedDessert = context.OrderedDesserts.Where<OrderedDessert>(d => d.OrderedDessertId == orderedDessertDto.OrderedDessertId).FirstOrDefault();
                 double onePrice = orderedDessert.Price/ orderedDessert.Quantity;
                 orderedDessert.Quantity = quantity;
@@ -853,7 +1027,7 @@ namespace AppServer.Controllers
         }
         #endregion
 
-        #region Put Desser In Order
+        #region Put Dessert In Order
        
         [HttpPost("PutInOrder")]
         public IActionResult PutInOrder([FromBody] int oDessertId, [FromQuery] int orderId)
@@ -862,6 +1036,12 @@ namespace AppServer.Controllers
             {
                 try
                 {
+                    //Check if who is logged in
+                    string? userMail = HttpContext.Session.GetString("loggedInUser");
+                    if (string.IsNullOrEmpty(userMail))
+                    {
+                        return Unauthorized("User is not logged in");
+                    }
 
                     OrderedDessert oDessert = context.GetOrderedDessert(oDessertId);
                     oDessert.OrderId=orderId;
@@ -887,8 +1067,14 @@ namespace AppServer.Controllers
         {
             try
             {
-                HttpContext.Session.Clear(); //Logout any previous login attempt
+                //Check if who is logged in
+                string? userMail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userMail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
 
+                User u = context.GetUser(orderDto.BakerId);
                 //Create model order class
                 Models.Order modelsOrder = orderDto.GetModels();
                 context.Orders.Add(modelsOrder);
@@ -896,6 +1082,15 @@ namespace AppServer.Controllers
 
                 //Order was added!
                 DTO.OrderDTO dtoOrder = new DTO.OrderDTO(modelsOrder);
+                MailData mailData = new MailData()
+                {
+                    From = "Lynn",
+                    To = u.Mail,
+                    Subject = "New Order",
+                    Body = $"New order had been made from your confectionery! \n Buyer Mail:{orderDto.TheUser.ProfileName} \n Order Date:{orderDto.OrderDate} \n Adress:{orderDto.Adress} \n Total:{orderDto.TotalPrice} "
+                };
+                SendMailService s = new SendMailService();
+                s.Send(mailData);
                 return Ok(dtoOrder);
             }
             catch (Exception ex)
@@ -914,6 +1109,12 @@ namespace AppServer.Controllers
             {
                 try
                 {
+                    //Check if who is logged in
+                    string? userMail = HttpContext.Session.GetString("loggedInUser");
+                    if (string.IsNullOrEmpty(userMail))
+                    {
+                        return Unauthorized("User is not logged in");
+                    }
 
                     Baker baker = context.GetBaker(bakerDto.BakerId);
                     baker.Profits =bakerDto.Profits;
@@ -961,8 +1162,28 @@ namespace AppServer.Controllers
             {
                 try
                 {
+                    //Check if who is logged in
+                    string? userMail = HttpContext.Session.GetString("loggedInUser");
+                    if (string.IsNullOrEmpty(userMail))
+                    {
+                        return Unauthorized("User is not logged in");
+                    }
 
                     OrderedDessert d = context.GetOrderedDessert(id);
+
+                    //Get model user class from DB with matching email. 
+                    Models.User? user = context.GetUser(userMail);
+                    //Clear the tracking of all objects to avoid double tracking
+                    context.ChangeTracker.Clear();
+
+                    //Check if the user that is logged in is the same user of the task
+                    //this situation is ok only if the user is a manager
+                    if (user == null || (user.UserTypeId != 2) || user.UserId != d.BakerId)
+                    {
+                        return Unauthorized("Different user is trying to approve an ordered dessert.");
+                    }
+
+                    
                     d.StatusCode = 2;
                     context.SaveChanges();
                     return Ok();
@@ -987,8 +1208,26 @@ namespace AppServer.Controllers
             {
                 try
                 {
+                        //Check if who is logged in
+                        string? userMail = HttpContext.Session.GetString("loggedInUser");
+                        if (string.IsNullOrEmpty(userMail))
+                        {
+                            return Unauthorized("User is not logged in");
+                        }
 
-                    OrderedDessert d = context.GetOrderedDessert(id);
+                        OrderedDessert d = context.GetOrderedDessert(id);
+
+                        //Get model user class from DB with matching email. 
+                        Models.User? user = context.GetUser(userMail);
+                        //Clear the tracking of all objects to avoid double tracking
+                        context.ChangeTracker.Clear();
+
+                        //Check if the user that is logged in is the same user of the task
+                        //this situation is ok only if the user is a manager
+                        if (user == null || (user.UserTypeId != 2) || user.UserId != d.BakerId)
+                        {
+                            return Unauthorized("Different user is trying to decline an ordered dessert.");
+                        }
                     d.StatusCode = 3;
                     context.SaveChanges();
                     return Ok();
@@ -1013,6 +1252,12 @@ namespace AppServer.Controllers
             {
                 try
                 {
+                    //Check if who is logged in
+                    string? userMail = HttpContext.Session.GetString("loggedInUser");
+                    if (string.IsNullOrEmpty(userMail))
+                    {
+                        return Unauthorized("User is not logged in");
+                    }
 
                     Order o = context.GetOrder(id);
                     o.StatusCode = 2;
@@ -1032,7 +1277,7 @@ namespace AppServer.Controllers
         }
         #endregion
 
-        #region declineordereddessert
+        #region declineorder
         [HttpPost("DeclineOrder")]
         public IActionResult DeclineOrder([FromBody] int id)
         {
@@ -1040,6 +1285,12 @@ namespace AppServer.Controllers
             {
                 try
                 {
+                    //Check if who is logged in
+                    string? userMail = HttpContext.Session.GetString("loggedInUser");
+                    if (string.IsNullOrEmpty(userMail))
+                    {
+                        return Unauthorized("User is not logged in");
+                    }
 
                     Order o = context.GetOrder(id);
                     o.StatusCode = 3;
@@ -1065,9 +1316,14 @@ namespace AppServer.Controllers
 
             try
             {
-                Order? order = context.Orders.Where<Order>(d => d.OrderId == orderDto.Id).FirstOrDefault();
-               
-                
+                //Check if who is logged in
+                string? userMail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userMail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                Order? order = context.Orders.Where<Order>(d => d.OrderId == orderDto.Id).FirstOrDefault();      
                 order.TotalPrice = newPrice;
                 context.SaveChanges();
                 return Ok(order);

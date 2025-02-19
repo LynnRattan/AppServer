@@ -16,8 +16,8 @@ namespace AppServer.DTO
         public double? TotalPrice { get; set; }
         public int? StatusCode { get; set; }
 
-        public UserDTO TheUser { get; set; }
-        public BakerDTO TheBaker { get; set; }
+        public UserDTO? TheUser { get; set; }
+        public BakerDTO? TheBaker { get; set; }
 
         public OrderDTO() { }
 
