@@ -1238,6 +1238,18 @@ namespace AppServer.Controllers
                     Order o = context.GetOrder(id);
                     o.StatusCode = 3;
                     context.SaveChanges();
+                    User b = context.GetUser(o.BakerId);
+                    User u = context.GetUser(o.UserId);
+                    Baker baker = context.GetBaker(o.BakerId);
+                    MailData mailData = new MailData()
+                    {
+                        From = baker.ConfectioneryName,
+                        To = u.Mail,
+                        Subject = "Declined Order",
+                        Body = $"Your order from {baker.ConfectioneryName} was declined. \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Arrival Date:{o.ArrivalDate} \n Adress:{o.Adress} \n Total:{o.TotalPrice} "
+                    };
+                    SendMailService s = new SendMailService();
+                    s.Send(mailData);
                     return Ok();
                 }
                 catch (Exception ex)
