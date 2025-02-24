@@ -1202,7 +1202,7 @@ namespace AppServer.Controllers
                         From = baker.ConfectioneryName,
                         To = u.Mail,
                         Subject = "Approved Order",
-                        Body = $"Your order from {baker.ConfectioneryName} was approved! \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Arrival Date:{o.ArrivalDate} \n Adress:{o.Adress} \n Total:{o.TotalPrice} "
+                        Body = $"Your order from {baker.ConfectioneryName} was approved! \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Arrival Date:{o.ArrivalDate} \n Adress:{o.Adress} \n Total Price:{o.TotalPrice} "
                     };
                     SendMailService s = new SendMailService();
                     s.Send(mailData);
@@ -1246,7 +1246,7 @@ namespace AppServer.Controllers
                         From = baker.ConfectioneryName,
                         To = u.Mail,
                         Subject = "Declined Order",
-                        Body = $"Your order from {baker.ConfectioneryName} was declined. \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Arrival Date:{o.ArrivalDate} \n Adress:{o.Adress} \n Total:{o.TotalPrice} "
+                        Body = $"Your order from {baker.ConfectioneryName} was declined. \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Arrival Date:{o.ArrivalDate} \n Adress:{o.Adress} \n Total Price:{o.TotalPrice} "
                     };
                     SendMailService s = new SendMailService();
                     s.Send(mailData);
