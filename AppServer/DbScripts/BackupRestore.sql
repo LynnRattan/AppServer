@@ -1,7 +1,7 @@
 ﻿-- REPLACE YOUR DATABASE LOGIN AND PASSWORD IN THE SCRIPT BELOW 
 
-drop database AppServer_DB
-Go
+--drop database AppServer_DB
+--Go
 Use master
 Go
 
@@ -32,18 +32,3 @@ Go
 --    MOVE 'AppServer_DB' TO 'C:\Users\linra\AppServer_DB.mdf',   
 --    MOVE 'AppServer_DB_log' TO 'C:\Users\linra\AppServer_DB_log.ldf';  
 --ALTER DATABASE AppServer_DB SET MULTI_USER;
-
-USE master;
-ALTER DATABASE AppServer_DB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-RESTORE DATABASE AppServer_DB FROM DISK = 'C:\Users\user\source\repos\AppServer\AppServer\wwwroot\..\DbScripts\backup.bak' WITH REPLACE,
-    MOVE 'AppServer_DB' TO 'C:\Users\user\AppServer_DB.mdf',   
-    MOVE 'AppServer_DB_log' TO 'C:\Users\user\AppServer_DB_log.ldf';  
-ALTER DATABASE AppServer_DB SET MULTI_USER;
-
-Create Database AppServer_DB
-go
-
-
-
-Use master
-Go
