@@ -50,7 +50,7 @@ namespace AppServer.Controllers
         public IActionResult Login([FromBody] DTO.LoginInfo loginDto)
         {
             try
-            {
+            { //comit
                 HttpContext.Session.Clear(); //Logout any previous login attempt
 
                 //Get model user class from DB with matching email. 
