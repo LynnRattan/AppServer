@@ -1290,6 +1290,39 @@ namespace AppServer.Controllers
         }
         #endregion
 
+        #region DeleteFromMenu
+        [HttpGet("DeleteFromMenu")]
+        public IActionResult DeleteFromMenu(int id)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userMail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userMail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                Dessert d = context.Desserts.Where(o => o.DessertId == id).FirstOrDefault();
+
+                if (d != null)
+                {
+                    context.Desserts.Remove(d);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Dessert was not found in database");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
         #region Backup / Restore
         [HttpGet("Backup")]
         public async Task<IActionResult> Backup()
