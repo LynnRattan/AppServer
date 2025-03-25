@@ -137,6 +137,8 @@ CREATE TABLE OrderedDesserts (
     insert into Bakers (BakerId,ConfectioneryName,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(2,'Sweet',10,1,2,0)
     insert into Bakers (BakerId,ConfectioneryName,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(3,'Sweet2',10,2,2,0)
 
+   
+
     -- Create a login for the admin user
 CREATE LOGIN [AdminLogin] WITH PASSWORD = '12345';
 Go

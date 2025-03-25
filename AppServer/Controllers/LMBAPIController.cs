@@ -473,7 +473,17 @@ namespace AppServer.Controllers
                     Baker baker = context.GetBaker(bakerId);
                 baker.StatusCode = 2;
                 context.SaveChanges();
-                return Ok();
+                    User u = context.GetUser(baker.BakerId);
+                    MailData mailData = new MailData()
+                    {
+                        From = "LMB Admin",
+                        To = u.Mail,
+                        Subject = "Approved Confectionery",
+                        Body = $"Your new confectionery has been approved! \n Confectionery name:{baker.ConfectioneryName}"
+                    };
+                    SendMailService s = new SendMailService();
+                    s.Send(mailData);
+                    return Ok();
             }
             catch (Exception ex)
             {
@@ -517,6 +527,16 @@ namespace AppServer.Controllers
                     Baker baker = context.GetBaker(bakerId);
                     baker.StatusCode = 3;
                     context.SaveChanges();
+                    User u = context.GetUser(baker.BakerId);
+                    MailData mailData = new MailData()
+                    {
+                        From = "LMB Admin",
+                        To = u.Mail,
+                        Subject = "Declined Confectionery",
+                        Body = $"Your new confectionery has been declined. \n Confectionery name:{baker.ConfectioneryName}"
+                    };
+                    SendMailService s = new SendMailService();
+                    s.Send(mailData);
                     return Ok();
                 }
                 catch (Exception ex)
@@ -576,12 +596,22 @@ namespace AppServer.Controllers
                     //this situation is ok only if the user is a manager
                     if (user == null || (user.UserTypeId != 3))
                     {
-                        return Unauthorized("Non Admin User is trying to approve a dessert");
+                        return Unauthorized("Regular User is trying to approve a dessert");
                     }
 
                     Dessert dessert = context.GetDessert(dessertId);
                     dessert.StatusCode = 2;
                     context.SaveChanges();
+                    User u = context.GetUser(dessert.BakerId);
+                    MailData mailData = new MailData()
+                    {
+                        From = "LMB Admin",
+                        To = u.Mail,
+                        Subject = "Approved Dessert",
+                        Body = $"The dessert you wanted to add to your menu was approved. \n Dessert name:{dessert.DessertName} \n Dessert Type:{dessert.DessertType} \n Dessert Price:{dessert.Price}₪"
+                    };
+                    SendMailService s = new SendMailService();
+                    s.Send(mailData);
                     return Ok();
                 }
                 catch (Exception ex)
@@ -600,7 +630,7 @@ namespace AppServer.Controllers
         [HttpPost("declinedessert")]
         public IActionResult DeclineDessert([FromBody] int dessertId)
         {
-            if (context.Desserts.Where<Dessert>(b => b.DessertId == dessertId).FirstOrDefault() != null && context.Desserts.Where<Dessert>(b => b.DessertId == dessertId).FirstOrDefault().StatusCode == 1)
+            if (context.Desserts.Where<Dessert>(b => b.DessertId == dessertId).FirstOrDefault() != null)
             {
                 try
                 {
@@ -610,7 +640,7 @@ namespace AppServer.Controllers
                     {
                         return Unauthorized("User is not logged in");
                     }
-
+                    User logged = context.GetUser(userMail);    
                     //Get model user class from DB with matching email. 
                     Models.User? user = context.GetUser(userMail);
                     //Clear the tracking of all objects to avoid double tracking
@@ -620,12 +650,25 @@ namespace AppServer.Controllers
                     //this situation is ok only if the user is a manager
                     if (user == null || (user.UserTypeId !=2 && user.UserTypeId != 3))
                     {
-                        return Unauthorized("Non Admin User is trying to decline a confectionery");
+                        return Unauthorized("regular user is trying to decline a dessert");
                     }
 
                     Dessert dessert = context.GetDessert(dessertId);
                     dessert.StatusCode = 3;
                     context.SaveChanges();
+                    if (logged.UserTypeId == 3)
+                    {
+                        User u = context.GetUser(dessert.BakerId);
+                        MailData mailData = new MailData()
+                        {
+                            From = "LMB Admin",
+                            To = u.Mail,
+                            Subject = "Declined Dessert",
+                            Body = $"The dessert you wanted to add to your menu was declined. \n Dessert name:{dessert.DessertName} \n Dessert Type:{dessert.DessertType} \n Dessert Price:{dessert.Price}₪"
+                        };
+                        SendMailService s = new SendMailService();
+                        s.Send(mailData);
+                    }
                     return Ok();
                 }
                 catch (Exception ex)
