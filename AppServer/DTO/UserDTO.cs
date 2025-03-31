@@ -15,7 +15,7 @@
 
         public string ProfileImagePath { get; set; } = "";
 
-        public string PhoneNumber {  get; set; }
+        public string? PhoneNumber {  get; set; }
 
         public UserDTO() { }
 

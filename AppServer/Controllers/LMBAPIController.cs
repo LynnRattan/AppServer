@@ -1012,7 +1012,7 @@ namespace AppServer.Controllers
                 }
 
                 OrderedDessert? orderedDessert = context.OrderedDesserts.Where<OrderedDessert>(d => d.OrderedDessertId == orderedDessertDto.OrderedDessertId).FirstOrDefault();
-                double onePrice = orderedDessert.Price/ orderedDessert.Quantity;
+                double? onePrice = orderedDessert.Price/ orderedDessert.Quantity;
                 orderedDessert.Quantity = quantity;
                 orderedDessert.Price = onePrice*quantity;
                 context.SaveChanges();

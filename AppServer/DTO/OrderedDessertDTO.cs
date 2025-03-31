@@ -7,12 +7,12 @@ namespace AppServer.DTO
         public int OrderedDessertId {  get; set; }
         public int? DessertId { get; set; }
         public int? OrderId { get; set; }
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
         public int? StatusCode { get; set; }
         public int? UserId { get; set; }
         public int? BakerId { get; set; }
 
-        public double Price { get; set; }
+        public double? Price { get; set; }
 
         public DessertDTO TheDessert { get; set; }
         public BakerDTO TheBaker { get; set; }
