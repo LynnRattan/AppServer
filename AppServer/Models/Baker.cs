@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using AppServer.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppServer.Models;
@@ -43,9 +42,4 @@ public partial class Baker
     [ForeignKey("StatusCode")]
     [InverseProperty("Bakers")]
     public virtual Status StatusCodeNavigation { get; set; } = null!;
-
-    public static implicit operator Baker(BakerDTO v)
-    {
-        throw new NotImplementedException();
-    }
 }

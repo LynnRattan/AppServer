@@ -9,6 +9,7 @@
         public string ProfileName { get; set; }
         public int UserTypeId { get; set; }
         public string ProfileImagePath { get; set; } = "";
+        public string PhoneNumber { get; set; }
         public string? ConfectioneryName { get; set; }
         public double? HighestPrice { get; set; }
         public int? ConfectioneryTypeId {  get; set; }
@@ -25,6 +26,7 @@
             this.Mail = userDto.Mail;
             this.ProfileName = userDto.ProfileName;
             this.UserTypeId = userDto.UserTypeId;
+            this.PhoneNumber = userDto.PhoneNumber;
             this.ConfectioneryName = bakerDto.ConfectioneryName;
             this.HighestPrice = bakerDto.HighestPrice;
             this.ConfectioneryTypeId = bakerDto.ConfectioneryTypeId;
@@ -40,6 +42,7 @@
                 Mail = this.Mail,
                 ProfileName = this.ProfileName,
                 UserTypeId = this.UserTypeId,
+                PhoneNumber = this.PhoneNumber
             };
             return user;
         }

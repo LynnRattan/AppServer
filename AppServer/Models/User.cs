@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using AppServer.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppServer.Models;
 
-[Index("Mail", Name = "UQ__Users__2724B2D10BDC6196", IsUnique = true)]
+[Index("Mail", Name = "UQ__Users__2724B2D1D34D06B1", IsUnique = true)]
 public partial class User
 {
     [Key]
@@ -30,6 +29,9 @@ public partial class User
     [StringLength(100)]
     public string? ProfileImage { get; set; }
 
+    [StringLength(100)]
+    public string? PhoneNumber { get; set; }
+
     [InverseProperty("BakerNavigation")]
     public virtual Baker? Baker { get; set; }
 
@@ -42,9 +44,4 @@ public partial class User
     [ForeignKey("UserTypeId")]
     [InverseProperty("Users")]
     public virtual UserType UserType { get; set; } = null!;
-
-    public static implicit operator User(UserDTO v)
-    {
-        throw new NotImplementedException();
-    }
 }

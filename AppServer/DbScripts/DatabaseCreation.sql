@@ -43,7 +43,8 @@ CREATE TABLE Users (
     [ProfileName] NVARCHAR(100) NOT NULL,   --שם פרופיל--
      UserTypeId INT NOT NULL,  --מפתח זר לטבלת סוגי משתמש--
     FOREIGN KEY (UserTypeId) REFERENCES UserTypes(UserTypeId),  --סוג משתמש--
-    ProfileImage NVARCHAR(100)  --תמונת פרופיל--
+    ProfileImage NVARCHAR(100),  --תמונת פרופיל--
+    PhoneNumber NVARCHAR(100) --מספר טלפון--
     );
 
     --טבלת קודניטורים--

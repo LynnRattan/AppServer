@@ -24,7 +24,7 @@ public partial class Order
     [StringLength(100)]
     public string Adress { get; set; } = null!;
 
-    public double? TotalPrice { get; set; }
+    public double TotalPrice { get; set; }
 
     [ForeignKey("BakerId")]
     [InverseProperty("Orders")]

@@ -13,7 +13,7 @@ namespace AppServer.DTO
 
         public string Adress { get; set; }
 
-        public double? TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
         public int? StatusCode { get; set; }
 
         public UserDTO? TheUser { get; set; }

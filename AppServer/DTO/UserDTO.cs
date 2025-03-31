@@ -15,7 +15,7 @@
 
         public string ProfileImagePath { get; set; } = "";
 
-
+        public string PhoneNumber {  get; set; }
 
         public UserDTO() { }
 
@@ -27,7 +27,7 @@
             this.Mail = modelUser.Mail;
             this.ProfileName = modelUser.ProfileName;
             this.UserTypeId = modelUser.UserTypeId;
-            
+            this.PhoneNumber = modelUser.PhoneNumber;
         }
 
         public Models.User GetModels()
@@ -39,7 +39,8 @@
                 Mail = this.Mail,
                 Password = this.Password,
                 ProfileName= this.ProfileName,
-                UserTypeId= this.UserTypeId
+                UserTypeId= this.UserTypeId,
+                PhoneNumber= this.PhoneNumber
             };
 
             return modelsUser;
