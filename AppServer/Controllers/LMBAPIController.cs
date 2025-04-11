@@ -45,6 +45,7 @@ namespace AppServer.Controllers
 
         }
         #endregion
+
         #region login
         [HttpPost("login")]
         public IActionResult Login([FromBody] DTO.LoginInfo loginDto)
@@ -76,6 +77,7 @@ namespace AppServer.Controllers
 
         }
         #endregion
+
         #region signup
         [HttpPost("signup")]
         public IActionResult Register([FromBody] DTO.UserBakerDTO userBakerDto)
@@ -117,6 +119,7 @@ namespace AppServer.Controllers
 
         }
         #endregion
+
         //[HttpPost("bakersignup")]
         //public IActionResult RegisterBaker([FromBody] DTO.UserBakerDTO userBakerDto)
         //{
@@ -150,6 +153,7 @@ namespace AppServer.Controllers
         //    }
 
         //}
+
         #region UploadProfileImage
         [HttpPost("UploadProfileImage")]
         public async Task<IActionResult> UploadProfileImageAsync(IFormFile file)
@@ -216,9 +220,11 @@ namespace AppServer.Controllers
             return Ok(dtoUser);
         }
         #endregion
+
         //Helper functions
 
         //this function gets a file stream and check if it is an image
+
         #region IsImage
         private static bool IsImage(Stream stream)
         {
@@ -247,6 +253,7 @@ namespace AppServer.Controllers
             return false;
         }
         #endregion
+
         #region UploadDessertImage
         [HttpPost("UploadDessertImage")]
         public async Task<IActionResult> UploadDessertImageAsync(IFormFile file, [FromQuery] int dessertId, int userId)
@@ -1333,38 +1340,38 @@ namespace AppServer.Controllers
         }
         #endregion
 
-        #region DeleteFromMenu
-        [HttpGet("DeleteFromMenu")]
-        public IActionResult DeleteFromMenu(int id)
-        {
-            try
-            {
-                //Check if who is logged in
-                string? userMail = HttpContext.Session.GetString("loggedInUser");
-                if (string.IsNullOrEmpty(userMail))
-                {
-                    return Unauthorized("User is not logged in");
-                }
+        //#region DeleteFromMenu
+        //[HttpGet("DeleteFromMenu")]
+        //public IActionResult DeleteFromMenu(int id)
+        //{
+        //    try
+        //    {
+        //        //Check if who is logged in
+        //        string? userMail = HttpContext.Session.GetString("loggedInUser");
+        //        if (string.IsNullOrEmpty(userMail))
+        //        {
+        //            return Unauthorized("User is not logged in");
+        //        }
 
-                Dessert d = context.Desserts.Where(o => o.DessertId == id).FirstOrDefault();
+        //        Dessert d = context.Desserts.Where(o => o.DessertId == id).FirstOrDefault();
 
-                if (d != null)
-                {
-                    context.Desserts.Remove(d);
-                    context.SaveChanges();
-                    return Ok();
-                }
-                else
-                {
-                    return BadRequest("Dessert was not found in database");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        #endregion
+        //        if (d != null)
+        //        {
+        //            context.Desserts.Remove(d);
+        //            context.SaveChanges();
+        //            return Ok();
+        //        }
+        //        else
+        //        {
+        //            return BadRequest("Dessert was not found in database");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        //#endregion
 
         #region Backup / Restore
         [HttpGet("Backup")]
