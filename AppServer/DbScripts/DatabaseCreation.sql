@@ -129,11 +129,11 @@ CREATE TABLE OrderedDesserts (
     insert into DessertTypes values(3,'Cookie')
     insert into DessertTypes values(4,'Pastry')
     
-      insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin')
-    insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('check','check@gmail.com','check1',2,'check')
-    insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('check2','check2@gmail.com','check2',2,'check2')
-          insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('test','test@gmail.com','test1',1,'test')
-          insert into Users (Username,Mail,[Password],UserTypeId,ProfileName) values('lol','lol@gmail.com','lol1',1,'lol')
+      insert into Users (Username,Mail,[Password],UserTypeId,ProfileName,PhoneNumber) values('Admin','linrattan11@gmail.com','1234',3,'TheAdmin','0545454540')
+    insert into Users (Username,Mail,[Password],UserTypeId,ProfileName,PhoneNumber) values('check','check@gmail.com','check1',2,'check','0526789120')
+    insert into Users (Username,Mail,[Password],UserTypeId,ProfileName,PhoneNumber) values('check2','check2@gmail.com','check2',2,'check2','0531234567')
+          insert into Users (Username,Mail,[Password],UserTypeId,ProfileName,PhoneNumber) values('test','test@gmail.com','test1',1,'test','0998765430')
+          insert into Users (Username,Mail,[Password],UserTypeId,ProfileName,PhoneNumber) values('lol','lol@gmail.com','lol1',1,'lol','0547339924')
 
     insert into Bakers (BakerId,ConfectioneryName,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(2,'Sweet',10,1,2,0)
     insert into Bakers (BakerId,ConfectioneryName,HighestPrice, ConfectioneryTypeId,StatusCode,Profits) values(3,'Sweet2',10,2,2,0)
