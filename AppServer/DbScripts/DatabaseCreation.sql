@@ -84,7 +84,7 @@ CREATE TABLE Orders (
     BakerId INT --מפתח זר לטבלת קונדיטורים--
     FOREIGN KEY (BakerId) REFERENCES Bakers(BakerId), --מספר קונדיטור--
     OrderDate Date, --תאריך הזמנה--
-    ArrivalDate Date,  --תאריך הגעה--
+    DispatchDate Date,  --תאריך אישור ושליחה--
     Adress NVARCHAR(100) NOT NULL, --כתובת--
     TotalPrice FLOAT NOT NULL --מחיר כל ההזמנה--
     );

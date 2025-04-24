@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppServer.Models;
 
-[Index("Mail", Name = "UQ__Users__2724B2D1D34D06B1", IsUnique = true)]
+[Index("Mail", Name = "UQ__Users__2724B2D108DDE989", IsUnique = true)]
 public partial class User
 {
     [Key]

@@ -9,7 +9,7 @@ namespace AppServer.DTO
         public int? BakerId { get; set; }
 
         public DateOnly? OrderDate { get; set; }
-        public DateOnly? ArrivalDate { get; set; }
+        public DateOnly? DispatchDate { get; set; }
 
         public string Adress { get; set; }
 
@@ -27,7 +27,7 @@ namespace AppServer.DTO
             this.UserId = modelsOrder.UserId;
             this.BakerId = modelsOrder.BakerId;
             this.OrderDate=modelsOrder.OrderDate;
-            this.ArrivalDate = modelsOrder.ArrivalDate;
+            this.DispatchDate = modelsOrder.DispatchDate;
             this.Adress = modelsOrder.Adress;
             this.TotalPrice= modelsOrder.TotalPrice;
             this.StatusCode = modelsOrder.StatusCode;
@@ -49,7 +49,7 @@ namespace AppServer.DTO
                 UserId = this.UserId,
                 BakerId = this.BakerId,
                 OrderDate= this.OrderDate,
-                ArrivalDate = this.ArrivalDate,
+                DispatchDate = this.DispatchDate,
                 Adress = this.Adress,
                 TotalPrice= this.TotalPrice,
                 StatusCode = this.StatusCode

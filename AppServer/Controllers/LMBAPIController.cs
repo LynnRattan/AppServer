@@ -1227,7 +1227,7 @@ namespace AppServer.Controllers
 
         #region approveorder
         [HttpPost("ApproveOrder")]
-        public IActionResult ApproveOrder([FromBody] int id, [FromQuery] DateOnly arrivalDate)
+        public IActionResult ApproveOrder([FromBody] int id, [FromQuery] DateOnly dispatchDate)
         {
             if (context.Orders.Where<Order>(b => b.OrderId == id).FirstOrDefault() != null && context.Orders.Where<Order>(b => b.OrderId == id).FirstOrDefault().StatusCode == 1)
             {
@@ -1242,7 +1242,7 @@ namespace AppServer.Controllers
 
                     Order o = context.GetOrder(id);
                     o.StatusCode = 2;
-                    o.ArrivalDate = arrivalDate;
+                    o.DispatchDate = dispatchDate;
                     context.SaveChanges();
                     User b = context.GetUser(o.BakerId);
                     User u = context.GetUser(o.UserId);
@@ -1252,7 +1252,7 @@ namespace AppServer.Controllers
                         From = baker.ConfectioneryName,
                         To = u.Mail,
                         Subject = "Approved Order",
-                        Body = $"Your order from {baker.ConfectioneryName} was approved! \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Arrival Date:{o.ArrivalDate} \n Adress:{o.Adress} \n Total Price:{o.TotalPrice} "
+                        Body = $"Your order from {baker.ConfectioneryName} was approved! \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Dispatch Date:{o.DispatchDate} \n Adress:{o.Adress} \n Total Price:{o.TotalPrice} "
                     };
                     SendMailService s = new SendMailService();
                     s.Send(mailData);
@@ -1296,7 +1296,7 @@ namespace AppServer.Controllers
                         From = baker.ConfectioneryName,
                         To = u.Mail,
                         Subject = "Declined Order",
-                        Body = $"Your order from {baker.ConfectioneryName} was declined. \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Arrival Date:{o.ArrivalDate} \n Adress:{o.Adress} \n Total Price:{o.TotalPrice} "
+                        Body = $"Your order from {baker.ConfectioneryName} was declined. \n Baker Mail:{b.Mail} \n Order Date:{o.OrderDate} \n Dispatch Date:{o.DispatchDate} \n Adress:{o.Adress} \n Total Price:{o.TotalPrice} "
                     };
                     SendMailService s = new SendMailService();
                     s.Send(mailData);

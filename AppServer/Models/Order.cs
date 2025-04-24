@@ -19,7 +19,7 @@ public partial class Order
 
     public DateOnly? OrderDate { get; set; }
 
-    public DateOnly? ArrivalDate { get; set; }
+    public DateOnly? DispatchDate { get; set; }
 
     [StringLength(100)]
     public string Adress { get; set; } = null!;
