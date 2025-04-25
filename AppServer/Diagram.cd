@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AppServer.Models.Baker" Collapsed="true">
+    <Position X="4" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAURAAAAAAAAAAgAAAAAAACAAAAAAEAAIAAQAAAAAAU=</HashCode>
+      <FileName>Models\Baker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="ConfectioneryType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AppServer.Models.ConfectioneryType" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Models\ConfectioneryType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AppServer.Models.DBContext" Collapsed="true">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEQASAAAQARAAgUAAAAAAAAEAAACAAQEAAAgEAAAQE=</HashCode>
+      <FileName>Models\DBContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AppServer.Models.Dessert" Collapsed="true">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAABAACAAQAAAAAAEAAIAAQAEAAQQE=</HashCode>
+      <FileName>Models\Dessert.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Baker" />
+      <Property Name="DessertType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AppServer.Models.DessertType" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQAA=</HashCode>
+      <FileName>Models\DessertType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AppServer.Models.Order" Collapsed="true">
+    <Position X="5.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GAABAAAAAAAAAAAAAAAAAAgAAAgAQUAAIAAQAAAAAQE=</HashCode>
+      <FileName>Models\Order.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Baker" />
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AppServer.Models.OrderedDessert" Collapsed="true">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAEBAAAAAQAAAAAAAAAAAAwAAAAAAEAAIAAQgCAQAQA=</HashCode>
+      <FileName>Models\OrderedDessert.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Dessert" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AppServer.Models.Status" Collapsed="true">
+    <Position X="9" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEQAAAAAAAAAAAAAAAAAAQAAAAAAAAAIAAAAAAAAQE=</HashCode>
+      <FileName>Models\Status.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AppServer.Models.User" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAEAAAAAAAIAAAACAQAAQAgAAAAACAACAAAAAQAAAQE=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="UserType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AppServer.Models.UserType" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\UserType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

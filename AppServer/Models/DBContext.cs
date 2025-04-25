@@ -45,7 +45,7 @@ public partial class DBContext : DbContext
 
             entity.Property(e => e.BakerId).ValueGeneratedNever();
 
-            entity.HasOne(d => d.BakerNavigation).WithOne(p => p.Baker)
+            entity.HasOne(d => d.User).WithOne(p => p.Baker)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Bakers__BakerId__300424B4");
 

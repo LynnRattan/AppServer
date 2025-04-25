@@ -24,7 +24,7 @@ public partial class Baker
 
     [ForeignKey("BakerId")]
     [InverseProperty("Baker")]
-    public virtual User BakerNavigation { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 
     [ForeignKey("ConfectioneryTypeId")]
     [InverseProperty("Bakers")]

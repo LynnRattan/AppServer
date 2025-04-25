@@ -19,12 +19,12 @@ namespace AppServer.Models
 
         public Baker? GetBaker(int? BakerId)
         {
-            return this.Bakers.Where(b => b.BakerId == BakerId).Include(b=>b.BakerNavigation).FirstOrDefault();
+            return this.Bakers.Where(b => b.BakerId == BakerId).Include(b=>b.User).FirstOrDefault();
         }
 
         public List<Baker> GetBakers()
         {
-            return this.Bakers.Include(b=>b.BakerNavigation).ToList();
+            return this.Bakers.Include(b=>b.User).ToList();
         }
         public List<Dessert> GetDesserts()
         {
