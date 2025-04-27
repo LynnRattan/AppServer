@@ -21,7 +21,7 @@ public partial class OrderedDessert
 
     public int? BakerId { get; set; }
 
-    public int Quantity { get; set; }
+    public int? Quantity { get; set; }
 
     public double? Price { get; set; }
 

@@ -24,8 +24,8 @@
             this.ConfectioneryTypeId = modelBaker.ConfectioneryTypeId;
             this.StatusCode = modelBaker.StatusCode;
             this.Profits = modelBaker.Profits;
-            if (modelBaker.User != null) 
-                this.UserNavigation = new UserDTO(modelBaker.User);
+            if (modelBaker.BakerNavigation != null) 
+                 this.UserNavigation = new UserDTO(modelBaker.BakerNavigation);
         }
 
         public Models.Baker GetModels()
@@ -41,7 +41,7 @@
             };
 
             if (UserNavigation != null)
-                modelsBaker.User = UserNavigation.GetModels();
+                modelsBaker.BakerNavigation = UserNavigation.GetModels();
 
 
             return modelsBaker;
