@@ -657,7 +657,7 @@ namespace AppServer.Controllers
                     //this situation is ok only if the user is a manager
                     if (user == null || (user.UserTypeId !=2 && user.UserTypeId != 3))
                     {
-                        return Unauthorized("regular user is trying to decline a dessert");
+                        return Unauthorized("Regular user is trying to decline a dessert");
                     }
 
                     Dessert dessert = context.GetDessert(dessertId);
