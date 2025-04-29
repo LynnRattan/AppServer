@@ -36,9 +36,6 @@ public partial class User
     public virtual Baker? Baker { get; set; }
 
     [InverseProperty("User")]
-    public virtual ICollection<OrderedDessert> OrderedDesserts { get; set; } = new List<OrderedDessert>();
-
-    [InverseProperty("User")]
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     [ForeignKey("UserTypeId")]

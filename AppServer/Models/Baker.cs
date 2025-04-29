@@ -34,9 +34,6 @@ public partial class Baker
     public virtual ICollection<Dessert> Desserts { get; set; } = new List<Dessert>();
 
     [InverseProperty("Baker")]
-    public virtual ICollection<OrderedDessert> OrderedDesserts { get; set; } = new List<OrderedDessert>();
-
-    [InverseProperty("Baker")]
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     [ForeignKey("StatusCode")]
