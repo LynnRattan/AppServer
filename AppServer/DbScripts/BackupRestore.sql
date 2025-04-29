@@ -26,9 +26,9 @@ Use master
 Go
 
 
---USE master;
---ALTER DATABASE AppServer_DB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
---RESTORE DATABASE AppServer_DB FROM DISK = 'C:\Users\linra\source\repos\AppServer\AppServer\wwwroot\..\DbScripts\backup.bak' WITH REPLACE,
---    MOVE 'AppServer_DB' TO 'C:\Users\linra\AppServer_DB.mdf',   
---    MOVE 'AppServer_DB_log' TO 'C:\Users\linra\AppServer_DB_log.ldf';  
---ALTER DATABASE AppServer_DB SET MULTI_USER;
+USE master;
+ALTER DATABASE AppServer_DB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+RESTORE DATABASE AppServer_DB FROM DISK = 'C:\Users\linra\source\repos\AppServer\AppServer\wwwroot\..\DbScripts\backup.bak' WITH REPLACE, --להחליף את זה לנתיב של קובץ הגיבוי
+    MOVE 'AppServer_DB' TO 'C:\Users\linra\AppServer_DB.mdf',   --להחליף לנתיב שנמצא על המחשב שלך
+    MOVE 'AppServer_DB_log' TO 'C:\Users\linra\AppServer_DB_log.ldf';  
+ALTER DATABASE AppServer_DB SET MULTI_USER;
