@@ -7,8 +7,8 @@
       <FileName>Models\Baker.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="ConfectioneryType" />
       <Property Name="BakerNavigation" />
+      <Property Name="ConfectioneryType" />
       <Property Name="StatusCodeNavigation" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
@@ -57,6 +57,11 @@
   </Class>
   <Class Name="AppServer.Models.Order" Collapsed="true">
     <Position X="1" Y="5" Width="1.5" />
+    <AssociationLine Name="StatusCodeNavigation" Type="AppServer.Models.Status">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.027" Y="0.319" />
+      </MemberNameLabel>
+    </AssociationLine>
     <AssociationLine Name="User" Type="AppServer.Models.User" FixedToPoint="true">
       <Path>
         <Point X="2.5" Y="5.125" />
@@ -65,19 +70,14 @@
         <Point X="8" Y="5.125" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="StatusCodeNavigation" Type="AppServer.Models.Status">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.027" Y="0.319" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>GAABAAAAAAAAAAAAAAAAAAgAAAgAQUAAIAAQAAAAAQE=</HashCode>
       <FileName>Models\Order.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Baker" />
-      <Property Name="User" />
       <Property Name="StatusCodeNavigation" />
+      <Property Name="User" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="OrderedDesserts" />
