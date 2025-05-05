@@ -3,7 +3,7 @@
   <Class Name="AppServer.Models.Baker" Collapsed="true">
     <Position X="8" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAUQAAAAAAAAAAgAAAAAAACAAAAAAEAAIAAYAAAAAAQ=</HashCode>
+      <HashCode>AAUQAAAAAAAAAAgAAAAAAACAAAAAAEAAIAAYAAAAAAU=</HashCode>
       <FileName>Models\Baker.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -35,6 +35,20 @@
   </Class>
   <Class Name="AppServer.Models.Dessert" Collapsed="true">
     <Position X="4.25" Y="2.75" Width="1.5" />
+    <AssociationLine Name="StatusCodeNavigation" Type="AppServer.Models.Status" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5" Y="3.312" />
+        <Point X="5" Y="3.987" />
+        <Point X="6.125" Y="3.987" />
+        <Point X="6.125" Y="1.744" />
+        <Point X="8.448" Y="1.744" Type="JumpStart" />
+        <Point X="8.615" Y="1.744" Type="JumpEnd" />
+        <Point X="8.995" Y="1.744" Type="JumpStart" />
+        <Point X="9.161" Y="1.744" Type="JumpEnd" />
+        <Point X="13.688" Y="1.744" />
+        <Point X="13.688" Y="2.5" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAQAAAAAABAACAAQAAAAAAEAAIAAQAEAAQQE=</HashCode>
       <FileName>Models\Dessert.cs</FileName>
@@ -64,10 +78,8 @@
     </AssociationLine>
     <AssociationLine Name="User" Type="AppServer.Models.User" FixedToPoint="true">
       <Path>
-        <Point X="2.5" Y="5.125" />
-        <Point X="7.542" Y="5.125" Type="JumpStart" />
-        <Point X="7.708" Y="5.125" Type="JumpEnd" />
-        <Point X="8" Y="5.125" />
+        <Point X="2.5" Y="5.281" />
+        <Point X="8" Y="5.281" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -110,6 +122,37 @@
   </Class>
   <Class Name="AppServer.Models.Status" Collapsed="true">
     <Position X="13" Y="2.5" Width="1.5" />
+    <AssociationLine Name="Desserts" Type="AppServer.Models.Dessert" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14" Y="2.5" />
+        <Point X="14" Y="1.744" />
+        <Point X="9.161" Y="1.744" Type="JumpStart" />
+        <Point X="8.995" Y="1.744" Type="JumpEnd" />
+        <Point X="8.615" Y="1.744" Type="JumpStart" />
+        <Point X="8.448" Y="1.744" Type="JumpEnd" />
+        <Point X="5.318" Y="1.744" Type="JumpStart" />
+        <Point X="5.151" Y="1.744" Type="JumpEnd" />
+        <Point X="4.998" Y="1.744" Type="JumpStart" />
+        <Point X="4.831" Y="1.744" Type="JumpEnd" />
+        <Point X="4.594" Y="1.744" />
+        <Point X="4.594" Y="2.75" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Orders" Type="AppServer.Models.Order" ManuallyRouted="true">
+      <Path>
+        <Point X="13" Y="2.789" />
+        <Point X="12.625" Y="2.789" />
+        <Point X="12.625" Y="4.445" />
+        <Point X="8.833" Y="4.445" Type="JumpStart" />
+        <Point X="8.667" Y="4.445" Type="JumpEnd" />
+        <Point X="7.708" Y="4.445" Type="JumpStart" />
+        <Point X="7.542" Y="4.445" Type="JumpEnd" />
+        <Point X="2.38" Y="4.445" Type="JumpStart" />
+        <Point X="2.214" Y="4.445" Type="JumpEnd" />
+        <Point X="1.969" Y="4.445" />
+        <Point X="1.969" Y="5" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAEQAAAAAAAAAAAAAAAAAAQAAAAAAAAAIAAAAAAAAQE=</HashCode>
       <FileName>Models\Status.cs</FileName>
@@ -124,7 +167,7 @@
   <Class Name="AppServer.Models.User" Collapsed="true">
     <Position X="8" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAEAAAAAAAIAAAACAQAAQAgAAAAACAACAAAAAQAAAQA=</HashCode>
+      <HashCode>EAEAAAAAAAIAAAACAQAAQAgAAAAACAACAAAAAQAAAQE=</HashCode>
       <FileName>Models\User.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -140,6 +183,9 @@
       <HashCode>AAAAACAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\UserType.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Users" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
